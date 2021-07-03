@@ -35,6 +35,17 @@ router.post('/', async (req, res) => {
     res.status(500).send(err);
   }
 });
+router.post('/:id/contacts', async (req, res) => {
+  const { id } = req.params;
+  const { name, trustedPhone } = req.body;
+  try {
+    const user = await models.User.findOne({ where: { id } });
+    const contact = await user.createContact({ trustedPhone, name });
+    res.send(contact);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
