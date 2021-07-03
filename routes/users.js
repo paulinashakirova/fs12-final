@@ -35,6 +35,20 @@ router.post('/', async (req, res) => {
     res.status(500).send(err);
   }
 });
+//doesnt work
+router.get('/:id/contacts', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await models.User.findOne({
+      where: { id }
+    });
+    const contacts = await user.getContacts();
+    res.send(contacts);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+//seems to work but i cannot see it anywhere
 router.post('/:id/contacts', async (req, res) => {
   const { id } = req.params;
   const { name, trustedPhone } = req.body;
@@ -58,4 +72,5 @@ router.delete('/:id', async (req, res) => {
     res.status(404).send(err);
   }
 });
+//i also need to create an end point for deleting contact
 module.exports = router;
