@@ -55,18 +55,6 @@ router.post('/', async (req, res) => {
   }
 });
 //shows an empty object although i know that i can post new contacts in users
-router.get('/:id/contacts', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const user = await models.User.findOne({
-      where: { id }
-    });
-    const contacts = await user.getContacts();
-    res.send(contacts);
-  } catch (err) {
-    res.status(404).send(err);
-  }
-});
 
 //seems to work but i cannot see it anywhere
 

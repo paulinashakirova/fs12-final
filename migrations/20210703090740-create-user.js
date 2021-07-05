@@ -23,6 +23,15 @@ module.exports = {
       phone: {
         type: Sequelize.STRING
       },
+      trusted_name: {
+        type: Sequelize.STRING
+      },
+      trusted_contact: {
+        type: Sequelize.STRING
+      },
+      profile_photo: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

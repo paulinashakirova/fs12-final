@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      User.hasOne(models.Contact);
+      // User.hasOne(models.Contact);
       // define association here
     }
   }
@@ -18,7 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
       address: DataTypes.STRING,
-      phone: DataTypes.STRING
+      phone: DataTypes.STRING,
+      trusted_contact: DataTypes.STRING,
+      trusted_name: DataTypes.STRING,
+      profile_photo: DataTypes.STRING
     },
     {
       sequelize,
