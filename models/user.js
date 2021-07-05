@@ -29,7 +29,11 @@ module.exports = (sequelize, DataTypes) => {
       trusted_name: DataTypes.STRING,
       allowNull: false,
       profile_photo: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      latitude: DataTypes.STRING,
+      allowNull: false,
+      longitude: DataTypes.STRING,
+      allowNull: false,
     },
     {
       sequelize,
