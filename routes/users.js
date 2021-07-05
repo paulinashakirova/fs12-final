@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
     });
     res.send(user);
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({ msg: 'Please, fill in all required fields.' });
   }
 });
 //shows an empty object although i know that i can post new contacts in users
