@@ -6,7 +6,17 @@ var models = require('../models');
 router.get('/', async (req, res) => {
   try {
     const users = await models.User.findAll({
-      attributes: ['id', 'name', 'email', 'password', 'address', 'phone']
+      attributes: [
+        'id',
+        'name',
+        'email',
+        'password',
+        'address',
+        'phone',
+        'trusted_contact',
+        'trusted_name',
+        'profile_photo'
+      ]
       // include: { model: models.Album, attributes: ['name'] }
     });
     res.send(users);
@@ -27,9 +37,18 @@ router.get('/:id', async (req, res) => {
   }
 });
 router.post('/', async (req, res) => {
-  const { name, email, password, address, phone } = req.body;
+  const { name, email, password, address, phone, trusted_contact, trusted_name, profile_photo } = req.body;
   try {
-    const user = await models.User.create({ name, email, password, address, phone });
+    const user = await models.User.create({
+      name,
+      email,
+      password,
+      address,
+      phone,
+      trusted_contact,
+      trusted_name,
+      profile_photo
+    });
     res.send(user);
   } catch (err) {
     res.status(500).send(err);
@@ -51,17 +70,17 @@ router.get('/:id/contacts', async (req, res) => {
 
 //seems to work but i cannot see it anywhere
 
-router.post('/:id/contacts', async (req, res) => {
-  const { id } = req.params;
-  const { name, trustedPhone } = req.body;
-  try {
-    const user = await models.User.findOne({ where: { id } });
-    const contact = await user.createContact({ trustedPhone, name });
-    res.send(contact);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
+// router.post('/:id/contacts', async (req, res) => {
+//   const { id } = req.params;
+//   const { name, trustedPhone } = req.body;
+//   try {
+//     const user = await models.User.findOne({ where: { id } });
+//     const contact = await user.createContact({ trustedPhone, name });
+//     res.send(contact);
+//   } catch (err) {
+//     res.status(500).send(err);
+//   }
+// });
 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
