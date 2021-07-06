@@ -1,5 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
+// const bcrypt = require('bcrypt');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -12,33 +14,82 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  User.init(
-    {
-      name: DataTypes.STRING,
+  User.init({
+    
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },    
+    email: {
+      type:  DataTypes.STRING,
+      allowNull: false
+    },    
+    password: {
+      type:  DataTypes.STRING,
+      allowNull: false
+    },    
+    address: {
+      type:  DataTypes.STRING,
+      allowNull: false
+    },    
+    phone: {
+      type:  DataTypes.STRING,
+      allowNull: false
+    },    
+    trusted_contact: {
+      type:  DataTypes.STRING,
+      allowNull: false
+    },    
+    trusted_name: {
+      type:  DataTypes.STRING,
+      allowNull: false
+    },    
+    profile_photo: {
+      type:  DataTypes.STRING,
       allowNull: false,
-      email: DataTypes.STRING,
-      allowNull: false,
-      password: DataTypes.STRING,
-      allowNull: false,
-      address: DataTypes.STRING,
-      allowNull: false,
-      phone: DataTypes.STRING,
-      allowNull: false,
-      trusted_contact: DataTypes.STRING,
-      allowNull: false,
-      trusted_name: DataTypes.STRING,
-      allowNull: false,
-      profile_photo: DataTypes.STRING,
-      allowNull: false,
-      latitude: DataTypes.STRING,
-      allowNull: false,
-      longitude: DataTypes.STRING,
-      allowNull: false,
-    },
+    },    
+    latitude: {
+      type:  DataTypes.STRING,
+      allowNull: false
+    },    
+    longitude: {
+      type:  DataTypes.STRING,
+      allowNull: false
+    }
+  },
+    
+  
+    // {
+    //   hooks: {
+    //     beforeCreate: async (user) => {
+    //       if (user.password) {
+    //       const saltRounds = await bcrypt.genSaltSync(10);
+    //       user.password = bcrypt.hashSync(user.password, saltRounds);
+    //     }
+    //   },
+    //     beforeUpdate: async (user) => {
+    //       if (user.password) {
+    //       const saltRounds = await bcrypt.genSaltSync(10);
+    //       user.password = bcrypt.hashSync(user.password, saltRounds);
+    //     }
+    //   }
+    // },
+    //   instanceMethods: {
+    //     validPassword: function (password) {            
+    //       return bcrypt.compareSync(password, this.password);
+    //     }
+    //   }  
+    // }),
+    
+    // user.prototype.validPassword = async (password, hash) => {
+    //   return await bcrypt.compareSync(password, hash)
+    // },
+ 
     {
       sequelize,
       modelName: 'User'
     }
   );
+
   return User;
-};
+}
