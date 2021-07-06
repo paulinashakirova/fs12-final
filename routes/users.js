@@ -47,6 +47,20 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+//Get location by user id
+router.get('/:id/location', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await models.User.findOne({
+      where: { id }
+    });
+    res.send(user.latitude);   
+    console.log("this is the location of the user", user.latitude, user.longitude)
+  } catch (err) {
+    res.status(500).send(err);
+  }
+})
+
 // REGISTRATION OF USER
 router.post('/register', async (req, res) => {
   
@@ -107,6 +121,8 @@ router.post("/login", async (req, res) => {
   res.status(400).send({ message: err.message })
 }
 });
+
+
 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
