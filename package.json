@@ -7,9 +7,9 @@
     "migrate": "npx sequelize-cli db:migrate"
   },
   "dependencies": {
-    "bcrypt": "^5.0.1",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
+    "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^10.0.0",
