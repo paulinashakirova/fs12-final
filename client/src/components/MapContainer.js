@@ -1,138 +1,158 @@
-import React, { Component } from 'react'
-import { Map, Marker, GoogleApiWrapper, InfoWindow } from 'google-maps-react'
+import React, { Component } from "react";
+import { Map, Marker, GoogleApiWrapper, InfoWindow } from "google-maps-react";
 
-const apiKey = process.env.REACT_APP_GOOGLE_API_KEY
+const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
 const mapStyles = {
-  width: '100%',
-  height: '500px',
-  position: 'relative'
-}
+  width: "100%",
+  height: "500px",
+  position: "relative",
+};
 
-let service = null
+let service = null;
 
 export class MapContainer extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      input: '',
+      input: "",
       suggestions: [],
       places: [],
       infoWindow: new InfoWindow(),
       center: {
-        lat: 40.4222222,
-        lng: -3.7185121
+        lat: 0,
+        lng: 0,
       },
-      pos: {}
-    }
+      pos: {
+        lat: 0,
+        lng: 0,
+      },
+    };
+  }
+
+  // equivalent to useEffect, but for class components
+  componentDidMount() {
+    this.getLocation();
   }
 
   savePlace = (place) => {
-    this.setState({ places: [...this.state.places, place] })
-  }
+    this.setState({ places: [...this.state.places, place] });
+  };
 
   handleChange = (e) => {
-    this.setState({ input: e.target.value })
-  }
+    this.setState({ input: e.target.value });
+  };
 
   handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      this.search()
+    if (event.key === "Enter") {
+      this.search();
     }
-  }
+  };
 
   onMarkerClick = (props, marker, e) => {
-    console.log(props, marker, e)
-  }
+    console.log(props, marker, e);
+  };
 
   initPlaces(mapProps, map) {
-    const { google } = mapProps
-    service = new google.maps.places.PlacesService(map)
+    const { google } = mapProps;
+    service = new google.maps.places.PlacesService(map);
   }
 
   search = () => {
-    const { input } = this.state
+    const { input } = this.state;
     service.textSearch({ query: input }, (suggestions) => {
       this.setState({
-        suggestions
-      })
-    })
-  }
+        suggestions,
+      });
+    });
+  };
+
+  getLocation = () => {
+    const { infoWindow } = this.state;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          console.log(position);
+          this.setState({
+            pos,
+          });
+        },
+        () => {
+          this.handleLocationError(true, infoWindow);
+        }
+      );
+    } else {
+      this.handleLocationError(false, infoWindow);
+    }
+  };
+
+  handleLocationError = (browserHasGeolocation, infoWindow, pos) => {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(
+      browserHasGeolocation
+        ? "Error: The Geolocation service failed."
+        : "Error: Your browser doesn't support geolocation."
+    );
+  };
 
   render() {
-    const { suggestions, places } = this.state
+    const { suggestions, places } = this.state;
 
-    var bounds = new this.props.google.maps.LatLngBounds()
+    var bounds = new this.props.google.maps.LatLngBounds();
+
+    // extend the bounds to include each suggestion
     for (var i = 0; i < places.length; i++) {
-      bounds.extend(places[i].geometry.location)
+      bounds.extend(places[i].geometry.location);
     }
 
-    const getLocation = () => {
-      const { infoWindow } = this.state
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            }
-            console.log(position)
-            this.setState({
-              // infoWindow,
-              pos
-            })
-          },
-          () => {
-            handleLocationError(true, infoWindow)
-          }
-        )
-      } else {
-        handleLocationError(false, infoWindow)
-      }
-    }
-
-    const handleLocationError = (browserHasGeolocation, infoWindow, pos) => {
-      infoWindow.setPosition(pos)
-      infoWindow.setContent(
-        browserHasGeolocation
-          ? 'Error: The Geolocation service failed.'
-          : "Error: Your browser doesn't support geolocation."
-      )
-    }
+    // extend the bounds to include OUR current location
+    bounds.extend(this.state.pos);
 
     return (
-      <div className='container'>
-        <div className='row'>
-          <div className='col'>
-            <div className='form-inline d-flex justify-content-between mb-4'>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <div className="form-inline d-flex justify-content-between mb-4">
               <input
-                type='text'
+                type="text"
                 value={this.state.input}
                 onChange={this.handleChange}
-                className='form-control flex-grow-1'
-                placeholder='Search for places on Google Maps'
+                className="form-control flex-grow-1"
+                placeholder="Search for places on Google Maps"
                 onKeyPress={this.handleKeyPress}
               />
-              <button onClick={this.search} className='btn btn-primary ml-2'>
+              <button onClick={this.search} className="btn btn-primary ml-2">
                 Search
               </button>
-              <button onClick={getLocation} className='btn btn-info'>
+              <button onClick={this.getLocation} className="btn btn-info">
                 Find me
               </button>
             </div>
             <h3>Suggestions</h3>
-            <ul className='list-group'>
+            <ul className="list-group">
               {suggestions.map((place, i) => (
-                <li key={i} className='list-group-item d-flex justify-content-between align-items-center'>
+                <li
+                  key={i}
+                  className="list-group-item d-flex justify-content-between align-items-center"
+                >
                   <div>
                     <div>
                       <strong>{place.name}</strong>
                     </div>
-                    <span className='text-muted'>{place.formatted_address}</span>
+                    <span className="text-muted">
+                      {place.formatted_address}
+                    </span>
                   </div>
 
-                  <button className='btn btn-outline-primary' onClick={() => this.savePlace(place)}>
+                  <button
+                    className="btn btn-outline-primary"
+                    onClick={() => this.savePlace(place)}
+                  >
                     Show
                   </button>
                 </li>
@@ -145,7 +165,8 @@ export class MapContainer extends Component {
               onReady={this.initPlaces}
               zoom={14}
               bounds={bounds}
-              initialCenter={this.center}>
+              initialCenter={this.center}
+            >
               {places.map((marker, i) => (
                 <Marker
                   onClick={this.onMarkerClick}
@@ -154,14 +175,21 @@ export class MapContainer extends Component {
                   key={i}
                 />
               ))}
+
+              {/* DISPLAY MY POSITION IN THE MAP */}
+              <Marker
+                name="My current location"
+                position={this.state.pos}
+                key={i}
+              />
             </Map>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
 export default GoogleApiWrapper({
-  apiKey
-})(MapContainer)
+  apiKey,
+})(MapContainer);
