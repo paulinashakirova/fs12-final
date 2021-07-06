@@ -1,16 +1,12 @@
 import React, { Component } from 'react'
-import { Map, Marker, GoogleApiWrapper } from 'google-maps-react'
+import { Map, Marker, GoogleApiWrapper, InfoWindow } from 'google-maps-react'
 
 const apiKey = process.env.REACT_APP_GOOGLE_API_KEY
 
 const mapStyles = {
   width: '100%',
-  height: '400px'
-}
-
-const center = {
-  lat: 41.3851,
-  lng: 2.1734
+  height: '500px',
+  position: 'relative'
 }
 
 let service = null
@@ -22,7 +18,13 @@ export class MapContainer extends Component {
     this.state = {
       input: '',
       suggestions: [],
-      places: []
+      places: [],
+      infoWindow: new InfoWindow(),
+      center: {
+        lat: 40.4222222,
+        lng: -3.7185121
+      },
+      pos: {}
     }
   }
 
@@ -66,6 +68,39 @@ export class MapContainer extends Component {
       bounds.extend(places[i].geometry.location)
     }
 
+    const getLocation = () => {
+      const { infoWindow } = this.state
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            }
+            console.log(position)
+            this.setState({
+              // infoWindow,
+              pos
+            })
+          },
+          () => {
+            handleLocationError(true, infoWindow)
+          }
+        )
+      } else {
+        handleLocationError(false, infoWindow)
+      }
+    }
+
+    const handleLocationError = (browserHasGeolocation, infoWindow, pos) => {
+      infoWindow.setPosition(pos)
+      infoWindow.setContent(
+        browserHasGeolocation
+          ? 'Error: The Geolocation service failed.'
+          : "Error: Your browser doesn't support geolocation."
+      )
+    }
+
     return (
       <div className='container'>
         <div className='row'>
@@ -81,6 +116,9 @@ export class MapContainer extends Component {
               />
               <button onClick={this.search} className='btn btn-primary ml-2'>
                 Search
+              </button>
+              <button onClick={getLocation} className='btn btn-info'>
+                Find me
               </button>
             </div>
             <h3>Suggestions</h3>
@@ -101,14 +139,13 @@ export class MapContainer extends Component {
               ))}
             </ul>
           </div>
-          <div className='col'>
+          <div style={mapStyles}>
             <Map
               google={this.props.google}
               onReady={this.initPlaces}
               zoom={14}
-              style={mapStyles}
               bounds={bounds}
-              initialCenter={center}>
+              initialCenter={this.center}>
               {places.map((marker, i) => (
                 <Marker
                   onClick={this.onMarkerClick}
