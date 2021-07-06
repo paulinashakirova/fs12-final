@@ -88,9 +88,12 @@ router.post("/login", async (req, res) => {
   console.log("this is the user", user)
   
   if (user) {
-    const user_id = user.id;
+    const user_id = results.id;
+    console.log("this is the user_id", user_id)
 
-    const correctPassword = await bcrypt.compare(password, user.password)
+    const correctPassword = await bcrypt.compare(password, results.password)
+    console.log("this is the correcPassword", correctPassword )
+
 
     if (!correctPassword) throw new Error("Incorrect Password");
 
@@ -101,10 +104,9 @@ router.post("/login", async (req, res) => {
   }
 
 } catch (error) {
-  res.status(400).send({ message: error.message })
+  res.status(400).send({ message: err.message })
 }
 });
-
 
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
