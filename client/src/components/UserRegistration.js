@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { WebcamCapture } from "./Webcam";
 
 export default function UserRegistration() {
 	const [input, setInput] = useState([
@@ -110,10 +109,7 @@ export default function UserRegistration() {
 						onChange={onFileChange}
 					/>
 				</div>
-				<div>
-					Photo for verification
-					<WebcamCapture />
-				</div>
+				<div>Photo for verification</div>
 				<div className="col-md-6">
 					<label className="form-label">Email</label>
 					<input
