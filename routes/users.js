@@ -52,6 +52,22 @@ router.get("/:id", async (req, res) => {
 	}
 });
 
+//Get location by user id
+router.get('/:id/location', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await models.User.findOne({
+      where: { id }
+    });
+    const location = (`${user.latitude}, ${user.longitude}`)   
+    console.log("this is the real location:", location) 
+    res.send(location);   
+    // console.log("this is the location of the user", user.latitude, user.longitude)
+  } catch (err) {
+    res.status(500).send(err);
+  }
+})
+
 // REGISTRATION OF USER
 router.post("/register", async (req, res) => {
 	const {
@@ -146,16 +162,47 @@ router.post("/login", async (req, res) => {
 	}
 });
 
-router.delete("/:id", async (req, res) => {
-	const { id } = req.params;
-	try {
-		await models.User.destroy({
-			where: { id },
-		});
-		res.send({ msg: "User deleted" });
-	} catch (err) {
-		res.status(404).send(err);
-	}
+//UPDATE user's profile
+router.put("/profile", async function(req, res, next) {
+  // const { id } = req.body
+  // const { user_id } = req.user_id
+  const { name, email, password: hash, address, phone, trusted_contact, trusted_name, profile_photo } = req.body
+  
+  try {    
+    const user = await models.User.findOne({
+      where: { name }
+    });
+    // console.log("this is the user:", user) 
+    
+    const data = await user.update({
+      name,
+      email,
+      password: hash,
+      address,
+      phone,
+      trusted_contact,
+      trusted_name,
+      profile_photo  
+    }   
+    );
+    console.log("this is data:", data)
+    res.send({ message: "User details was updated correctly", data: data}) 
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await models.User.destroy({
+      where: { id }
+    });
+    res.send({ msg: 'User deleted' });
+  } catch (err) {
+    res.status(404).send(err);
+  }
 });
 
 module.exports = router;
