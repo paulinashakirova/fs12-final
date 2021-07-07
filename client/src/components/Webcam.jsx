@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import Webcam from "react-webcam";
 
-
-const WebcamComponent = () => <Webcam />;
-
 const videoConstraints = {
     width: 220,
     height: 200,
     facingMode: "user"
-};
+}
 
 export const WebcamCapture = () => {
 
@@ -27,17 +24,17 @@ export const WebcamCapture = () => {
         <div className="webcam-container">
             <div className="webcam-img">
 
-                {image == '' ? <Webcam
+                {image === '' ? <Webcam
                     audio={false}
                     height={200}
                     ref={webcamRef}
                     screenshotFormat="image/jpeg"
                     width={220}
                     videoConstraints={videoConstraints}
-                /> : <img src={image} />}
+                /> : <img src={image} alt="" />}
             </div>
             <div>
-                {image != '' ?
+                {image !== '' ?
                     <button onClick={(e) => {
                         e.preventDefault();
                         setImage('')

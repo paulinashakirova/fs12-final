@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./homeStyles.css";
 import { WebcamCapture } from "./Webcam";
 
 export default function UserRegistration() {
-	const [input, setInput] = useState({
-		name: "",
-		address: "",
-		phone: "",
-		imagefile: "",
-		email: "",
-		password: "",
-		trusted_name: "",
-		trusted_phone: "",
-	});
+	const [input, setInput] = useState([
+		{
+			name: "",
+			address: "",
+			phone: "",
+			profile_photo: "",
+			email: "",
+			password: "",
+			trusted_name: "",
+			trusted_contact: "",
+			longitude: "0",
+			latitude: "0",
+		},
+	]);
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
 
@@ -24,7 +27,7 @@ export default function UserRegistration() {
 
 	const onFileChange = (event) => {
 		// Update the state
-		setInput((state) => ({ ...state, imagefile: event.target.files[0] }));
+		setInput((state) => ({ ...state, profile_photo: event.target.files[0] }));
 	};
 
 	const handleSubmit = async (event) => {
@@ -36,11 +39,17 @@ export default function UserRegistration() {
 		formData.append("name", input.name);
 		formData.append("address", input.address);
 		formData.append("phone", input.phone);
-		formData.append("imagefile", input.profile_photo, input.profile_photo.name);
+		formData.append(
+			"profile_photo",
+			input.profile_photo,
+			input.profile_photo.name
+		);
 		formData.append("email", input.email);
 		formData.append("password", input.password);
 		formData.append("trusted_name", input.trusted_name);
-		formData.append("trusted_phone", input.trusted_phone);
+		formData.append("trusted_contact", input.trusted_contact);
+		formData.append("latitude", input.latitude);
+		formData.append("longitude", input.longitude);
 
 		try {
 			const response = await axios.post("/users/register", formData, {
@@ -89,19 +98,22 @@ export default function UserRegistration() {
 					/>
 				</div>
 				<div className="col-md-12">
-					<label for="formFile" class="form-label">
+					<label htmlFor="formFile" className="form-label">
 						Profile Photo
 					</label>
 					<input
-						class="form-control"
+						className="form-control"
 						type="file"
-						name="formFile"
+						name="profile_photo"
 						accept="image/*"
-						value={input.imagefile}
+						defaultValue={input.profile_photo}
 						onChange={onFileChange}
 					/>
 				</div>
-				<WebcamCapture />
+				<div>
+					Photo for verification
+					<WebcamCapture />
+				</div>
 				<div className="col-md-6">
 					<label className="form-label">Email</label>
 					<input
@@ -136,10 +148,10 @@ export default function UserRegistration() {
 				<div className="col-md-6">
 					<label className="form-label">Trusted Contact</label>
 					<input
-						type="trusted_phone"
+						type="trusted_contact"
 						className="form-control"
-						name="trusted_phone"
-						value={input.trusted_phone}
+						name="trusted_contact"
+						value={input.trusted_contact}
 						onChange={handleChange}
 					/>
 				</div>

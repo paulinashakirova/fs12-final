@@ -2,6 +2,7 @@ import "./App.css";
 import UserRegistration from "./components/UserRegistration";
 import UserLogin from "./components/UserLogin";
 import UserValidation from "./components/UserValidation";
+import UserProfile from "./components/UserProfile";
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -15,7 +16,7 @@ function App() {
 			<Router>
 				<NavLink to="/userRegistration">Register</NavLink>
 				<NavLink to="/userLogin">Login</NavLink>
-				<NavLink to="/userValidation">Validation</NavLink>
+				<NavLink to="/userProfile">Validation</NavLink>
 
 				<Switch>
 					<Route path="/userRegistration">
@@ -26,6 +27,9 @@ function App() {
 					</Route>
 					<Route path="/userValidation">
 						<UserValidation />
+					</Route>
+					<Route path="/userProfile">
+						<UserProfile />
 					</Route>
 				</Switch>
 			</Router>
