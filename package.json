@@ -7,11 +7,15 @@
     "migrate": "npx sequelize-cli db:migrate"
   },
   "dependencies": {
+
     "bcrypt": "^5.0.1",
+    "axios": "^0.21.1",
+    "bootstrap": "^5.0.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^10.0.0",
     "express": "~4.16.1",
+    "express-fileupload": "^1.2.1",
     "http-errors": "~1.6.3",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
@@ -19,6 +23,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.9",
+    "react-router-dom": "^5.2.0",
     "sequelize": "^6.6.4"
   },
   "devDependencies": {
