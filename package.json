@@ -11,7 +11,11 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^10.0.0",
+    "expo-camera": "^11.2.1",
+    "expo-sensors": "^10.2.2",
     "express": "~4.16.1",
+    "express-fileupload": "^1.2.1",
+    "file-system": "^2.2.2",
     "http-errors": "~1.6.3",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
@@ -19,6 +23,9 @@
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.9",
+    "react-axios": "^2.0.5",
+    "react-router-dom": "^5.2.0",
+    "react-webcam": "^5.2.4",
     "sequelize": "^6.6.4"
   },
   "devDependencies": {
