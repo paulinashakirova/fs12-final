@@ -1,10 +1,10 @@
 import React from 'react'
-import MapContainer from './MapContainer'
+import DashboardMap from './DashboardMap'
 
 export default function Dashboard() {
   return (
     <div>
-      <MapContainer />
+      <DashboardMap />
     </div>
   )
 }
