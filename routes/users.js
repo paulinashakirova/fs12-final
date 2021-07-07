@@ -54,8 +54,10 @@ router.get('/:id/location', async (req, res) => {
     const user = await models.User.findOne({
       where: { id }
     });
-    res.send(user.latitude);   
-    console.log("this is the location of the user", user.latitude, user.longitude)
+    const location = (`${user.latitude}, ${user.longitude}`)   
+    console.log("this is the real location:", location) 
+    res.send(location);   
+    // console.log("this is the location of the user", user.latitude, user.longitude)
   } catch (err) {
     res.status(500).send(err);
   }
@@ -82,7 +84,7 @@ router.post('/register', async (req, res) => {
       latitude,
       longitude
     });
-    // console.log("this is the user",user)
+    // console.log("this is the user",user)    
     res.send(user);
   } catch (err) {
     res.status(500).send({ msg: 'Please, fill in all required fields.' });
@@ -122,6 +124,35 @@ router.post("/login", async (req, res) => {
 }
 });
 
+//UPDATE user's profile
+router.put("/profile", async function(req, res, next) {
+  // const { id } = req.body
+  // const { user_id } = req.user_id
+  const { name, email, password: hash, address, phone, trusted_contact, trusted_name, profile_photo } = req.body
+  
+  try {    
+    const user = await models.User.findOne({
+      where: { name }
+    });
+    // console.log("this is the user:", user) 
+    
+    const data = await user.update({
+      name,
+      email,
+      password: hash,
+      address,
+      phone,
+      trusted_contact,
+      trusted_name,
+      profile_photo  
+    }   
+    );
+    console.log("this is data:", data)
+    res.send({ message: "User details was updated correctly", data: data}) 
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 
 router.delete('/:id', async (req, res) => {
