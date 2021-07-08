@@ -50,6 +50,13 @@ export class Map extends Component {
     })
   }
 
+  clearSearch = () => {
+    this.setState({
+      suggestions: [],
+      searchCriteria: ''
+    })
+  }
+
   onMarkerClick = (props, marker, e) => {
     console.log(props, marker, e)
   }
@@ -79,6 +86,7 @@ export class Map extends Component {
             <div className='form-inline d-flex justify-content-between mb-4'>
               <input
                 type='text'
+                value={this.state.searchCriteria}
                 onChange={this.handleChange}
                 className='form-control flex-grow-1'
                 placeholder='Search for places on Google Maps'
@@ -88,7 +96,16 @@ export class Map extends Component {
                 Search
               </button>
             </div>
-            <h3>Suggestions</h3>
+            <div>
+              <h3>Suggestions</h3>
+              <button
+                onClick={this.clearSearch}
+                hidden={!this.state.suggestions.length}
+                className='btn btn-sm btn-danger'>
+                Clear
+              </button>
+            </div>
+
             <ul className='list-group'>
               {this.state.suggestions.map((place, i) => (
                 <li key={i} className='list-group-item d-flex justify-content-between align-items-center'>
@@ -98,7 +115,6 @@ export class Map extends Component {
                     </div>
                     <span className='text-muted'>{place.formatted_address}</span>
                   </div>
-
                   <button className='btn btn-outline-primary' onClick={() => this.savePlace(place)}>
                     Show
                   </button>
