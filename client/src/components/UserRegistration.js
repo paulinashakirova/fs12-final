@@ -14,6 +14,7 @@ export default function UserRegistration() {
       trusted_contact: "",
       longitude: "0",
       latitude: "0",
+      location_token:"0"
     },
   ]);
   const [error, setError] = useState("");
@@ -49,6 +50,7 @@ export default function UserRegistration() {
     formData.append("trusted_contact", input.trusted_contact);
     formData.append("latitude", input.latitude);
     formData.append("longitude", input.longitude);
+    formData.append("location_token", input.location_token);
 
     try {
       const response = await axios.post("/users/register", formData, {

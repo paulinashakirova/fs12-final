@@ -1,5 +1,5 @@
 import "./App.css";
-import Dashboard from "./components/Dashboard";
+// import Dashboard from "./components/Dashboard";
 import UserRegistration from "./components/UserRegistration";
 import UserLogin from "./components/UserLogin";
 import UserValidation from "./components/UserValidation";
@@ -15,9 +15,9 @@ function App() {
     <div className="App">
       <Router>
         <nav className="navbar navbar-expand">
-          <NavLink className="nav-item" to="/">
+          {/* <NavLink className="nav-item" to="/">
             Dashboard
-          </NavLink>
+          </NavLink> */}
           <NavLink className="nav-item" to="/userRegistration">
             Register
           </NavLink>
@@ -27,9 +27,9 @@ function App() {
         </nav>
 
         <Switch>
-          <Route path="/" exact>
+          {/* <Route path="/" exact>
             <Dashboard />
-          </Route>
+          </Route> */}
           <Route path="/userRegistration">
             <UserRegistration />
           </Route>

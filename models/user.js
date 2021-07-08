@@ -55,6 +55,10 @@ module.exports = (sequelize, DataTypes) => {
     longitude: {
       type:  DataTypes.STRING,
       allowNull: false
+    },
+    location_token: {
+      type:  DataTypes.STRING,
+      allowNull: false
     }
   },
     
