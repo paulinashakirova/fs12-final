@@ -1,48 +1,43 @@
-import "./App.css";
-import Dashboard from "./components/Dashboard";
-import UserRegistration from "./components/UserRegistration";
-import UserLogin from "./components/UserLogin";
-import UserValidation from "./components/UserValidation";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  NavLink,
-} from "react-router-dom";
+import './App.css'
+import Dashboard from './components/Dashboard'
+import UserRegistration from './components/UserRegistration'
+import UserLogin from './components/UserLogin'
+import UserValidation from './components/UserValidation'
+import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom'
 
 function App() {
   return (
-    <div className="App">
+    <div className='App'>
       <Router>
-        <nav className="navbar navbar-expand">
-          <NavLink className="nav-item" to="/">
+        <nav className='navbar navbar-expand gap-3 p-5'>
+          <NavLink className='nav-item' to='/'>
             Dashboard
           </NavLink>
-          <NavLink className="nav-item" to="/userRegistration">
+          <NavLink className='nav-item' to='/userRegistration'>
             Register
           </NavLink>
-          <NavLink className="nav-item" to="/userLogin">
+          <NavLink className='nav-item' to='/userLogin'>
             Login
           </NavLink>
         </nav>
 
         <Switch>
-          <Route path="/" exact>
+          <Route path='/' exact>
             <Dashboard />
           </Route>
-          <Route path="/userRegistration">
+          <Route path='/userRegistration'>
             <UserRegistration />
           </Route>
-          <Route path="/userLogin">
+          <Route path='/userLogin'>
             <UserLogin />
           </Route>
-          <Route path="/userValidation">
+          <Route path='/userValidation'>
             <UserValidation />
           </Route>
         </Switch>
       </Router>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
