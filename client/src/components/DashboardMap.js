@@ -12,6 +12,7 @@ export default function DashboardMap() {
     getLocation()
   }, [])
 
+  //ask the user for their current location
   const getLocation = () => {
     if (!navigator.geolocation) {
       setStatus('Geolocation is not supported by your browser')
@@ -41,10 +42,3 @@ export default function DashboardMap() {
     </div>
   )
 }
-// /1. Browser should ask the user for their current location using navigation.geolocation
-// 2.  Send this info to the backend and store ir in the users table
-// 3. Generate link to share with others (/livelocation/5) where 5 is user ID
-// 4. When a person opens that link a component is gonna show in the frontend which is gonna make
-//  a request to the backend to the LAT and LNG for the user(GET/users/5/location)
-// 5. (This is gonna return LAT AND LNG)
-// 6. Show as a marker in the map
