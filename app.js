@@ -21,7 +21,6 @@ app.use(
 		tempFileDir: "./tmp/",
 	})
 );
-app.use(express.static("public"));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
