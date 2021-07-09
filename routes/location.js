@@ -32,14 +32,14 @@ router.get(
 //here, we generate the location_token
 //send email
 //guar usershouldbe...
-// router.post('/liveLocation', async (req, res) => {
-//   const { latitude, longitude } = req.body;
-// try {
-//   await models.User.update({
-
-//   })
-// }
-// });
+router.post('/liveLocation', userShouldBeLoggedIn, async (req, res) => {
+  const { latitude, longitude } = req.body;
+  try {
+    await models.User.update({});
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 
 //Update location for one user from frontend
 
