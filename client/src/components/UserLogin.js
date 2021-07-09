@@ -16,14 +16,15 @@ function UserLogin(props) {
     }));
   };
 
-  const login = async () => {
+  const login = async (event) => {
+    event.preventDefault();
     try {
       const response = await axios("/users/login", {
         method: "POST",
         data: user,
         // body: JSON.stringify(user)
       });
-
+      console.log(response.data);
       localStorage.setItem("token", response.data.token);
     } catch (err) {
       console.log(err);
