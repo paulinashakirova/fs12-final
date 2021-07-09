@@ -1,9 +1,9 @@
-import './App.css'
-import Dashboard from './components/Dashboard'
-import UserRegistration from './components/UserRegistration'
-import UserLogin from './components/UserLogin'
-import UserValidation from './components/UserValidation'
-import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom'
+import './App.css';
+import Dashboard from './components/Dashboard';
+import UserRegistration from './components/UserRegistration';
+import UserLogin from './components/UserLogin';
+import UserValidation from './components/UserValidation';
+import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
 
 function App() {
   return (
@@ -37,7 +37,7 @@ function App() {
         </Switch>
       </Router>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
