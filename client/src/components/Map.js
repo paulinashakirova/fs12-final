@@ -16,6 +16,9 @@ export class Map extends Component {
     super(props)
 
     this.state = {
+      searchCriteria: '',
+      suggestions: [],
+      places: [],
       center: {
         lat: 0,
         lng: 0
@@ -23,17 +26,48 @@ export class Map extends Component {
     }
   }
 
+  savePlace = (place) => {
+    this.setState({ places: [...this.state.places, place] })
+  }
+
+  handleChange = (e) => {
+    this.setState({ searchCriteria: e.target.value })
+  }
+
+  handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this.search()
+    }
+  }
+
+  search = (e = null) => {
+    console.warn(e)
+    const { searchCriteria } = this.state
+    service.textSearch({ query: searchCriteria }, (suggestions) => {
+      this.setState({
+        suggestions
+      })
+    })
+  }
+
+  clearSearch = () => {
+    this.setState({
+      suggestions: [],
+      searchCriteria: ''
+    })
+  }
+
   onMarkerClick = (props, marker, e) => {
     console.log(props, marker, e)
   }
 
-  initPlaces(mapProps, map) {
+  initPlaces = (mapProps, map) => {
     const { google } = mapProps
     service = new google.maps.places.PlacesService(map)
   }
 
   render() {
-    const { places } = this.props
+    const { places } = this.state
 
     var bounds = new this.props.google.maps.LatLngBounds()
 
@@ -43,28 +77,72 @@ export class Map extends Component {
     }
 
     // extend the bounds to include OUR current location
-    bounds.extend(this.props.pos)
+    bounds.extend(this.props.position)
 
     return (
-      <div style={mapStyles}>
-        <GoogleMap
-          google={this.props.google}
-          onReady={this.initPlaces}
-          zoom={14}
-          bounds={bounds}
-          initialCenter={this.center}>
-          {places.map((marker, i) => (
-            <Marker
-              onClick={this.onMarkerClick}
-              name={marker.name}
-              position={marker.geometry.location}
-              key={i}
-            />
-          ))}
+      <div className='container'>
+        <div className='row'>
+          <div className='col'>
+            <div className='form-inline d-flex justify-content-between mb-4'>
+              <input
+                type='text'
+                value={this.state.searchCriteria}
+                onChange={this.handleChange}
+                className='form-control flex-grow-1'
+                placeholder='Search for places on Google Maps'
+                onKeyPress={this.handleKeyPress}
+              />
+              <button onClick={this.search} className='btn btn-primary ml-2'>
+                Search
+              </button>
+            </div>
+            <div>
+              <h3>Suggestions</h3>
+              <button
+                onClick={this.clearSearch}
+                hidden={!this.state.suggestions.length}
+                className='btn btn-sm btn-danger'>
+                Clear
+              </button>
+            </div>
 
-          {/* DISPLAY MY POSITION IN THE MAP */}
-          <Marker name='My current location' position={this.props.pos} />
-        </GoogleMap>
+            <ul className='list-group'>
+              {this.state.suggestions.map((place, i) => (
+                <li key={i} className='list-group-item d-flex justify-content-between align-items-center'>
+                  <div>
+                    <div>
+                      <strong>{place.name}</strong>
+                    </div>
+                    <span className='text-muted'>{place.formatted_address}</span>
+                  </div>
+                  <button className='btn btn-outline-primary' onClick={() => this.savePlace(place)}>
+                    Show
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div style={mapStyles}>
+            <GoogleMap
+              google={this.props.google}
+              onReady={this.initPlaces}
+              zoom={14}
+              bounds={bounds}
+              initialCenter={this.center}>
+              {places.map((marker, i) => (
+                <Marker
+                  onClick={this.onMarkerClick}
+                  name={marker.name}
+                  position={marker.geometry.location}
+                  key={i}
+                />
+              ))}
+
+              {/* DISPLAY MY POSITION IN THE MAP */}
+              <Marker name='My current location' position={this.props.position} />
+            </GoogleMap>
+          </div>
+        </div>
       </div>
     )
   }
