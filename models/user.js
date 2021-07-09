@@ -94,5 +94,31 @@ module.exports = (sequelize, DataTypes) => {
 		}
 	);
 
+	// {
+	//   hooks: {
+	//     beforeCreate: async (user) => {
+	//       if (user.password) {
+	//       const saltRounds = await bcrypt.genSaltSync(10);
+	//       user.password = bcrypt.hashSync(user.password, saltRounds);
+	//     }
+	//   },
+	//     beforeUpdate: async (user) => {
+	//       if (user.password) {
+	//       const saltRounds = await bcrypt.genSaltSync(10);
+	//       user.password = bcrypt.hashSync(user.password, saltRounds);
+	//     }
+	//   }
+	// },
+	//   instanceMethods: {
+	//     validPassword: function (password) {
+	//       return bcrypt.compareSync(password, this.password);
+	//     }
+	//   }
+	// }),
+
+	// user.prototype.validPassword = async (password, hash) => {
+	//   return await bcrypt.compareSync(password, hash)
+	// },
+
 	return User;
 };

@@ -27,7 +27,8 @@
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.9",
     "react-router-dom": "^5.2.0",
-    "sequelize": "^6.6.4"
+    "sequelize": "^6.6.4",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "sequelize-cli": "^6.2.0"
