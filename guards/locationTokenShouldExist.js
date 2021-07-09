@@ -2,15 +2,11 @@ const uuid = require('uuid');
 // require('dotenv').config();
 
 function locationTokenShouldExist(req, res, next) {
-  const locationToken = req.headers['y-location-token'];
+  const { location_token } = req.params; // comes in params
 
-  if (locationToken) {
-    uuid.validate(locationToken, async (err) => {
-      if (err) res.status(401).send({ message: 'location token does not exist' });
-      else {
-        req.locationToken = locationToken;
-        next();
-      }
+  if (location_token) {
+    models.User.findOne({
+      where: { location_token }
     });
   } else {
     res.status(401).send({ message: 'location token does not exist' });

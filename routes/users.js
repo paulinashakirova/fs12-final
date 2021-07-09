@@ -69,6 +69,7 @@ router.post('/register', async (req, res) => {
     location_token
   } = req.body;
   const { profile_photo } = req.files;
+  console.log('the photo is', profile_photo);
 
   const extension = mime.extension(profile_photo.mimetype);
 
@@ -92,13 +93,11 @@ router.post('/register', async (req, res) => {
       phone,
       trusted_contact,
       trusted_name,
-      profile_photo: target_path,
+      profile_photo: filename,
       latitude,
       longitude,
       location_token
     });
-
-    console.log('this is the hash', hash);
 
     const user = await models.User.create({
       name,
@@ -108,13 +107,12 @@ router.post('/register', async (req, res) => {
       phone,
       trusted_contact,
       trusted_name,
-      profile_photo: target_path,
+      profile_photo: filename,
       latitude,
       longitude,
       location_token
     });
 
-    console.log('this is the user', user);
     res.send(user);
   } catch (err) {
     res.status(500).send({ msg: 'Please, fill in all required fields.' });
@@ -126,17 +124,16 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const results = await models.User.findOne({
+    const user = await models.User.findOne({
       where: { email }
     });
-    console.log('this are the results', results);
-    const user = results.id;
-    console.log('this is the user', user);
 
-    if (user) {
-      const user_id = user.id;
+    const userId = user.id;
 
-      const correctPassword = await bcrypt.compare(password, results.password);
+    if (userId) {
+      const user_id = userId;
+
+      const correctPassword = await bcrypt.compare(password, user.password);
 
       if (!correctPassword) throw new Error('Incorrect Password');
 
@@ -152,32 +149,32 @@ router.post('/login', async (req, res) => {
 
 //UPDATE user's profile
 router.put('/profile', userShouldBeLoggedIn, async function (req, res, next) {
-  const {
-    name,
-    email,
-    password: hash,
-    address,
-    phone,
-    trusted_contact,
-    trusted_name,
-    latitude,
-    longitude
-  } = req.body;
+  const { name, email, address, phone, trusted_contact, trusted_name, latitude, longitude } = req.body;
   const { profile_photo } = req.files;
+  const extension = mime.extension(profile_photo.mimetype);
+
+  const filename = uuidv4() + '.' + extension;
+
+  const tmp_path = profile_photo.tempFilePath;
+
+  const target_path = path.join(__dirname, '../public/img/') + filename;
+
   console.log('i am updating this on body', req.body);
+  const user = req.user;
 
   try {
+    await fs.rename(tmp_path, target_path);
     const data = await user.update({
       name,
       email,
-      password: hash,
       address,
       phone,
       trusted_contact,
       trusted_name,
-      profile_photo: target_path,
+      profile_photo: filename,
       latitude,
-      longitude
+      longitude,
+      where: { id: user.id }
     });
 
     // console.log("this is the user:", user)

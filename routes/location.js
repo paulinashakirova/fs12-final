@@ -9,15 +9,15 @@ require('dotenv').config();
 
 //Get location by locationToken
 router.get(
-  '/livelocation/:locationToken',
-  [userShouldBeLoggedIn, liveLocationShouldBeEnabled, locationTokenShouldExist],
+  '/liveLocation/:location_token',
+  [locationTokenShouldExist, liveLocationShouldBeEnabled],
   async (req, res) => {
-    const { locationToken } = req.params;
+    const { location_token } = req.params;
     //guard locationTokenShouldExist
 
     try {
       const user = await models.User.findOne({
-        where: { locationToken }
+        where: { location_token }
       });
       const location = `${user.latitude}, ${user.longitude}`;
       console.log('this is the real location:', location);
@@ -29,12 +29,25 @@ router.get(
   }
 );
 
-//Update location from frontend
-router.put('/livelocation', [userShouldBeLoggedIn, liveLocationShouldBeEnabled], async (req, res) => {
+//here, we generate the location_token
+//send email
+//guar usershouldbe...
+// router.post('/liveLocation', async (req, res) => {
+//   const { latitude, longitude } = req.body;
+// try {
+//   await models.User.update({
+
+//   })
+// }
+// });
+
+//Update location for one user from frontend
+
+router.put('/liveLocation', userShouldBeLoggedIn, async (req, res) => {
   const { latitude, longitude } = req.body;
 
   try {
-    await user.update({
+    await models.User.update({
       latitude,
       longitude
     });
