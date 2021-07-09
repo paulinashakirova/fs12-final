@@ -69,13 +69,42 @@ export class Map extends Component {
   render() {
     const { places } = this.state
 
-    var bounds = new this.props.google.maps.LatLngBounds()
+//     var bounds = new this.props.google.maps.LatLngBounds()
 
-    // extend the bounds to include each suggestion
-    for (var i = 0; i < places.length; i++) {
-      bounds.extend(places[i].geometry.location)
-    }
+//     // extend the bounds to include each suggestion
+//     for (var i = 0; i < places.length; i++) {
+//       bounds.extend(places[i].geometry.location)
+//     }
 
+<<<<<<< HEAD
+//     // extend the bounds to include OUR current location
+//     bounds.extend(this.props.pos)
+
+//     return (
+//       <div style={mapStyles}>
+//         <GoogleMap
+//           google={this.props.google}
+//           onReady={this.initPlaces}
+//           zoom={14}
+//           bounds={bounds}
+//           initialCenter={this.center}>
+//           {places.map((marker, i) => (
+//             <Marker
+//               onClick={this.onMarkerClick}
+//               name={marker.name}
+//               position={marker.geometry.location}
+//               key={i}
+//             />
+//           ))}
+
+//           {/* DISPLAY MY POSITION IN THE MAP */}
+//           <Marker name='My current location' position={this.props.pos} />
+//         </GoogleMap>
+//       </div>
+//     )
+//   }
+// }
+=======
     // extend the bounds to include OUR current location
     bounds.extend(this.props.position)
 
@@ -147,7 +176,8 @@ export class Map extends Component {
     )
   }
 }
+>>>>>>> dd82dc31ef2526be0ee073a0339f2ae232b56264
 
-export default GoogleApiWrapper({
-  apiKey
-})(Map)
+// export default GoogleApiWrapper({
+//   apiKey
+// })(Map)
