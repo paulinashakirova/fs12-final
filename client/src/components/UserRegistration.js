@@ -107,7 +107,6 @@ export default function UserRegistration() {
 						type="file"
 						name="profile_photo"
 						accept="image/*"
-						value={input.profile_photo}
 						onChange={onFileChange}
 					/>
 				</div>

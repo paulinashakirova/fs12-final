@@ -14,7 +14,7 @@ export default function Profile() {
 
 	const getUsers = async () => {
 		try {
-			const response = await axios(`/users/16`, {
+			const response = await axios(`/users/18`, {
 				headers: {
 					"x-access-token": localStorage.getItem("token"),
 				},
@@ -31,7 +31,7 @@ export default function Profile() {
 			<h3 className="text-center fw-bold mb-4">User Profile</h3>
 			<div className="container emp-profile">
 				{users.map((item) => (
-					<form method="post">
+					<form method="post" key={item.id}>
 						<div className="row">
 							<div className="col-md-4">
 								<div className="profile-img">
