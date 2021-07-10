@@ -22,7 +22,7 @@ export default function UserEdit() {
 	useEffect(() => {
 		(async () => {
 			try {
-				const user = await axios.get(`/users/16`, {
+				const user = await axios.get(`/users/20`, {
 					headers: {
 						"x-access-token": localStorage.getItem("token"),
 					},

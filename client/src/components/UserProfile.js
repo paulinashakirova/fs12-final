@@ -3,7 +3,7 @@ import axios from "axios";
 
 const errorMessage = "There was a problem. Please try again later";
 
-export default function Profile() {
+export default function UserProfile() {
 	const [users, setUsers] = useState([]);
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
@@ -14,7 +14,8 @@ export default function Profile() {
 
 	const getUsers = async () => {
 		try {
-			const response = await axios(`/users/18`, {
+			const id = users.id;
+			const response = await axios.get(`/users/20`, {
 				headers: {
 					"x-access-token": localStorage.getItem("token"),
 				},
@@ -31,9 +32,9 @@ export default function Profile() {
 			<h3 className="text-center fw-bold mb-4">User Profile</h3>
 			<div className="container emp-profile">
 				{users.map((item) => (
-					<form method="post" key={item.id}>
+					<form method="post">
 						<div className="row">
-							<div className="col-md-4">
+							<div className="col-md-4" key={item.id}>
 								<div className="profile-img">
 									<img src={item.profile_photo} alt="" />
 									<div className="file btn btn-lg btn-primary">

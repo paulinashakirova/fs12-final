@@ -9,7 +9,6 @@ var fs = require("fs/promises");
 var path = require("path");
 const { v4: uuidv4 } = require("uuid");
 var mime = require("mime-types");
-const { profile } = require("console");
 const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 
 require("dotenv").config();
@@ -42,10 +41,10 @@ router.get("/", async (req, res) => {
 });
 
 // GET one user
-router.get("/:id", async (req, res) => {
+router.get("/:id", userShouldBeLoggedIn, async (req, res) => {
 	const { id } = req.params;
 	try {
-		const user = await models.User.findOne({
+		const user = await models.User.findAll({
 			where: { id },
 		});
 		res.send(user);
