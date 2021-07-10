@@ -31,11 +31,22 @@ router.get(
 
 //here, we generate the location_token
 //send email
-//guar usershouldbe...
+
 router.post('/liveLocation', userShouldBeLoggedIn, async (req, res) => {
   const { latitude, longitude } = req.body;
+  const location_token = uuidv4();
+  const user = req.user;
+
   try {
-    await models.User.update({});
+    const response = await user.update({
+      latitude,
+      longitude,
+      location_token,
+      where: { id: user.id }
+    });
+
+    console.log('this is the response from endopoint', response);
+    res.send({ message: 'location_token successfully stored' });
   } catch (error) {
     res.status(500).send(error.message);
   }
