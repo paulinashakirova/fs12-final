@@ -41,10 +41,11 @@ router.get("/", async (req, res) => {
 });
 
 // GET one user
-router.get("/:id", userShouldBeLoggedIn, async (req, res) => {
-	const { id } = req.params;
+router.get("/", userShouldBeLoggedIn, async (req, res) => {
 	try {
-		const user = await models.User.findAll({
+		const token = req.headers[""];
+		const { id } = jwt.decode({ token }, supersecret);
+		const user = await models.User.findOne({
 			where: { id },
 		});
 		res.send(user);

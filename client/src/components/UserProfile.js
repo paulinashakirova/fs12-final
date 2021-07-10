@@ -14,8 +14,7 @@ export default function UserProfile() {
 
 	const getUsers = async () => {
 		try {
-			const id = users.id;
-			const response = await axios.get(`/users/20`, {
+			const response = await axios.get(`/users`, {
 				headers: {
 					"x-access-token": localStorage.getItem("token"),
 				},
