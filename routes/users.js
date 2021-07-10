@@ -9,6 +9,7 @@ var fs = require("fs/promises");
 var path = require("path");
 const { v4: uuidv4 } = require("uuid");
 var mime = require("mime-types");
+const { profile } = require("console");
 const userShouldBeLoggedIn = require("../guards/userShouldBeLoggedIn");
 
 require("dotenv").config();
@@ -41,18 +42,27 @@ router.get("/", async (req, res) => {
 });
 
 // GET one user
-router.get("/", userShouldBeLoggedIn, async (req, res) => {
+router.get("/id", userShouldBeLoggedIn, async (req, res) => {
 	try {
-		const token = req.headers[""];
-		const { id } = jwt.decode({ token }, supersecret);
-		const user = await models.User.findOne({
-			where: { id },
-		});
-		res.send(user);
+		await res.send(req.user);
 	} catch (err) {
 		res.status(500).send(err);
 	}
 });
+
+// router.get("/id", async (req, res) => {
+// 	try {
+// 		const token = req.headers[""];
+// 		const id = jwt.decode({ token }, supersecret);
+// 		const user = await models.User.findAll({
+// 			where: { id },
+// 		});
+// 		res.send(user);
+// 		console.log(response.data);
+// 	} catch (err) {
+// 		res.status(500).send(err);
+// 	}
+// });
 
 // REGISTRATION OF USER
 router.post("/register", async (req, res) => {

@@ -3,6 +3,21 @@ var models = require("../models");
 require("dotenv").config();
 const supersecret = process.env.SUPER_SECRET;
 
+// function userShouldBeLoggedIn(req, res, next) {
+// 	let token = req.headers["x-access-token"];
+// 	try {
+// 		// Throws error on invalid/missing token
+// 		let payload = jwt.verify(token, supersecret);
+// 		// If we get here, a valid token was passed
+// 		if (payload.userId === Number(req.params.userId)) {
+// 			next();
+// 		} else {
+// 			res.status(401).send({ error: "Unauthorized" });
+// 		}
+// 	} catch (err) {
+// 		res.status(401).send({ error: "Unauthorized" });
+// 	}
+// }
 function userShouldBeLoggedIn(req, res, next) {
 	const token = req.headers["x-access-token"];
 

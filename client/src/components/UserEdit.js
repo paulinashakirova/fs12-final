@@ -22,13 +22,13 @@ export default function UserEdit() {
 	useEffect(() => {
 		(async () => {
 			try {
-				const user = await axios.get(`/users/20`, {
+				const user = await axios.get(`/users/id`, {
 					headers: {
 						"x-access-token": localStorage.getItem("token"),
 					},
 				});
 				console.log(user.data);
-				setUser(user.data[0]);
+				setUser(user.data);
 			} catch (error) {
 				console.log(error);
 			}
@@ -48,7 +48,7 @@ export default function UserEdit() {
 		e.preventDefault();
 		try {
 			console.log("Data for update : ", user);
-			const response = await axios.put(`users/profile/${user.id}`, user);
+			const response = await axios.put(`users/profile`, user);
 		} catch (error) {
 			console.log(error);
 		}
