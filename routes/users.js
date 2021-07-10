@@ -50,6 +50,20 @@ router.get('/id', userShouldBeLoggedIn, async (req, res) => {
   }
 });
 
+// router.get("/id", async (req, res) => {
+// 	try {
+// 		const token = req.headers[""];
+// 		const id = jwt.decode({ token }, supersecret);
+// 		const user = await models.User.findAll({
+// 			where: { id },
+// 		});
+// 		res.send(user);
+// 		console.log(response.data);
+// 	} catch (err) {
+// 		res.status(500).send(err);
+// 	}
+// });
+
 // REGISTRATION OF USER
 router.post('/register', async (req, res) => {
   const {
