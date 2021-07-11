@@ -1,93 +1,74 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react'
+import axios from 'axios'
 
 function UserLogin(props) {
-	const [user, setUser] = useState({
-		email: "",
-		password: "",
-	});
+  const [user, setUser] = useState({
+    email: '',
+    password: ''
+  })
 
-	const handleChange = ({ target }) => {
-		const { name, value } = target;
+  const handleChange = ({ target }) => {
+    const { name, value } = target
 
-		setUser((state) => ({
-			...state,
-			[name]: value,
-		}));
-	};
+    setUser((state) => ({
+      ...state,
+      [name]: value
+    }))
+  }
 
-	const login = async (event) => {
-		event.preventDefault();
-		try {
-			const response = await axios("/users/login", {
-				method: "POST",
-				data: user,
-				// body: JSON.stringify(user)
-			});
-			console.log(response.data);
-			localStorage.setItem("token", response.data.token);
-		} catch (err) {
-			console.log(err);
-		}
-	};
+  const login = async (event) => {
+    event.preventDefault()
+    try {
+      const response = await axios.post('/users/login', user)
+      localStorage.setItem('token', response.data.token)
+      window.location.href = '/'
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
-	return (
-		<div className="container">
-			<h3 className="text-center fw-bold mb-4">Log in</h3>
-			<form onSubmit={login}>
-				<div className="mb-3">
-					<label className="form-label">Email</label>
-					<input
-						type="text"
-						className="form-control"
-						name="email"
-						value={user.email}
-						onChange={handleChange}
-					/>
-				</div>
-				<div className="mb-3">
-					<label className="form-label">Password</label>
-					<input
-						type="password"
-						className="form-control"
-						name="password"
-						value={user.password}
-						onChange={handleChange}
-					/>
-				</div>
-				<div className="mb-3 form-check">
-					<input
-						type="checkbox"
-						className="form-check-input"
-						id="forgotpassword"
-					/>
-					<label className="form-check-label" name="forgotpassword">
-						Forgot Password
-					</label>
-				</div>
-				<div className="d-grid gap-2 d-md-flex justify-content-md-center">
-					<button type="submit" className="btn btn-primary mb-3">
-						Log in
-					</button>
-				</div>
-			</form>
-			<footer className="footer">
-				<div className="row align-items-center justify-content-xl-between">
-					<div className="col-xl-6 m-auto text-center">
-						<div className="copyright">
-							<p>
-								{" "}
-								<a href="/" target="_blank">
-									Safemme
-								</a>{" "}
-								by Karenina, Kelly, Melani, Paulina, Yusmi
-							</p>
-						</div>
-					</div>
-				</div>
-			</footer>
-		</div>
-	);
+  return (
+    <div className='container'>
+      <h3 className='text-center fw-bold mb-4'>Log in</h3>
+      <form onSubmit={login}>
+        <div className='mb-3'>
+          <label className='form-label'>Email</label>
+          <input
+            type='text'
+            className='form-control'
+            name='email'
+            value={user.email}
+            onChange={handleChange}
+          />
+        </div>
+        <div className='mb-3'>
+          <label className='form-label'>Password</label>
+          <input
+            type='password'
+            className='form-control'
+            name='password'
+            value={user.password}
+            onChange={handleChange}
+          />
+        </div>
+        <button type='submit' className='btn btn-primary btn-block mb-3'>
+          Log in
+        </button>
+      </form>
+      <footer className='footer'>
+        <div className='row align-items-center justify-content-xl-between'>
+          <div className='col-xl-6 m-auto text-center'>
+            <div className='copyright'>
+              <p>
+                <i className='mr-1 fw-bold'>Safemme</i>
+                by Karenina, Kelly, Melani, Paulina, Yusmi
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
 }
 
-export default UserLogin;
+export default UserLogin
