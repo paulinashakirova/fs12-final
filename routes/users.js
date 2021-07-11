@@ -132,7 +132,7 @@ router.post('/register', async (req, res) => {
 //LOGIN
 router.post('/login', async (req, res) => {
   const { email, password } = req.body
-  console.log('hello your')
+
   try {
     const user = await models.User.findOne({
       where: { email }
@@ -144,7 +144,6 @@ router.post('/login', async (req, res) => {
       const user_id = userId
 
       const correctPassword = await bcrypt.compare(password, user.password)
-      console.log('hello')
 
       if (!correctPassword) throw new Error('Incorrect Password')
 

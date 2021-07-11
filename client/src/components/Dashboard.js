@@ -11,6 +11,7 @@ export default function Dashboard() {
   const [sharingStatus, setSharingStatus] = useState(false)
 
   useEffect(() => {
+    getLocation()
     setInterval(getLocation, 10000)
   }, [])
   useEffect(() => {
@@ -38,12 +39,11 @@ export default function Dashboard() {
   const sendMyCurrentLocation = () => {
     try {
       axios.post(
-        '/liveLocation',
-        { latitud: position.lat, longitude: position.lng },
+        '/location/liveLocation',
+        { latitude: position.lat, longitude: position.lng },
         {
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+            'x-access-token': localStorage.getItem('token')
           }
         }
       )
@@ -53,10 +53,23 @@ export default function Dashboard() {
   }
 
   const updateMyLocation = () => {
-    axios.put('/users/liveLocation', position)
+    try {
+      axios.put(
+        '/location/liveLocation',
+        { latitude: position.lat, longitude: position.lng },
+        {
+          headers: {
+            'x-access-token': localStorage.getItem('token')
+          }
+        }
+      )
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const shareMyLocation = () => {
+    sendMyCurrentLocation()
     setSharingStatus(true)
   }
 
@@ -70,7 +83,7 @@ export default function Dashboard() {
         {status}
         <div className='row g-0 gap-1 mb-3'>
           <button className='btn btn-success' onClick={sendMyCurrentLocation} disabled={!position}>
-            Share my current location
+            Send my current location
           </button>
           <button className='btn btn-info' hidden={sharingStatus} onClick={shareMyLocation}>
             Share my location
