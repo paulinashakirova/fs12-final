@@ -35,28 +35,54 @@ export default function UserEdit() {
 		})();
 	}, []);
 
-	const handleInput = (e) => {
-		console.log(e.target.name, " : ", e.target.value);
-		setUser({ ...user, [e.target.name]: e.target.value });
+	const handleInput = (event) => {
+		console.log(event.target.name, " : ", event.target.value);
+		setUser({ ...user, [event.target.name]: event.target.value });
 	};
-	const onFileInput = (e) => {
+	const onFileInput = (event) => {
 		//console.log(e.target.name, " : ", e.target.value);
-		setUser({ ...user, profile_photo: e.target.files[0] });
+		setUser({ ...user, profile_photo: event.target.files[0] });
 	};
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		//console.log("submit button clicked");
+
+		const formData = new FormData();
+
+		formData.append("name", user.name);
+		formData.append("address", user.address);
+		formData.append("phone", user.phone);
+		formData.append(
+			"profile_photo",
+			user.profile_photo,
+			user.profile_photo.name
+		);
+		formData.append("email", user.email);
+		formData.append("password", user.password);
+		formData.append("trusted_name", user.trusted_name);
+		formData.append("trusted_contact", user.trusted_contact);
+		formData.append("latitude", user.latitude);
+		formData.append("longitude", user.longitude);
+		formData.append("location_token", user.location_token);
+
 		try {
-			console.log("Data for update : ", user);
-			const response = await axios.put(`users/profile`, user);
-		} catch (error) {
-			console.log(error);
+			const response = await axios.put("/users/profile", formData, {
+				headers: {
+					"x-access-token": localStorage.getItem("token"),
+					"Content-Type": "multipart/form-data",
+				},
+			});
+			console.log(response);
+		} catch (err) {
+			console.log(err);
 		}
 	};
+
 	return (
 		<div className="container">
 			<h3 className="text-center fw-bold mb-4">Hi {user.name}</h3>
-			<form className="row g-3" onSubmit={handleSubmit}>
+			<form className="row g-3">
 				<div className="col-12">
 					<label className="form-label">Name</label>
 					<Input
@@ -91,8 +117,9 @@ export default function UserEdit() {
 					<label className="form-label">Profile Photo</label>
 					<Input
 						name="profile_photo"
-						type="text"
-						value={user.profile_photo}
+						type="file"
+						accept="image/*"
+						formControlName="imageName"
 						placeholder="Your profile photo"
 						handleInput={onFileInput}
 					/>
@@ -128,7 +155,11 @@ export default function UserEdit() {
 					/>
 				</div>
 
-				<button type="submit" className="btn btn-primary">
+				<button
+					type="button"
+					className="btn btn-primary"
+					onClick={(event) => handleSubmit(event)}
+				>
 					Update
 				</button>
 			</form>
