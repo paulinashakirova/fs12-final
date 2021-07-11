@@ -17,7 +17,7 @@
     "expo-sensors": "^10.2.2",
     "express": "~4.16.1",
     "express-fileupload": "^1.2.1",
-    "file-system": "^2.2.2",
+    "file-system": "^1.2.2",
     "http-errors": "~1.6.3",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
