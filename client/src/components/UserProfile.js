@@ -34,7 +34,10 @@ export default function UserProfile() {
 					<div className="row">
 						<div className="col-md-4">
 							<div className="profile-img">
-								<img src={user.profile_photo} alt="" />
+								<img
+									src={process.env.PUBLIC_URL + `/img/${user.profile_photo}`}
+									alt=""
+								/>
 								<div className="file btn btn-lg btn-primary">
 									Change Photo
 									<input type="file" name="file" />
