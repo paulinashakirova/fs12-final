@@ -8,6 +8,7 @@ function locationTokenShouldExist(req, res, next) {
     models.User.findOne({
       where: { location_token }
     });
+    next();
   } else {
     res.status(401).send({ message: 'location token does not exist' });
   }

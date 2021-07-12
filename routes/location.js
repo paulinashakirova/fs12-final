@@ -8,26 +8,18 @@ const liveLocationShouldBeEnabled = require('../guards/liveLocationShouldBeEnabl
 require('dotenv').config();
 
 //Get location by locationToken
-router.get(
-  '/liveLocation/:location_token',
-  [locationTokenShouldExist, liveLocationShouldBeEnabled],
-  async (req, res) => {
-    const { location_token } = req.params;
-    //guard locationTokenShouldExist
-
-    try {
-      const user = await models.User.findOne({
-        where: { location_token }
-      });
-      const location = `${user.latitude}, ${user.longitude}`;
-      console.log('this is the real location:', location);
-      res.send(location);
-      // console.log("this is the location of the user", user.latitude, user.longitude)
-    } catch (err) {
-      res.status(500).send(err);
-    }
+//liveLocationShouldBeEnabled
+router.get('/liveLocation/:location_token', [locationTokenShouldExist], async (req, res) => {
+  console.log('yes i am here');
+  try {
+    const location = `${user.latitude}, ${user.longitude}`;
+    console.log('this is the real location:', location);
+    res.send(location);
+    // console.log("this is the location of the user", user.latitude, user.longitude)
+  } catch (err) {
+    res.status(500).send(err);
   }
-);
+});
 
 //here, we generate the location_token
 //send email
