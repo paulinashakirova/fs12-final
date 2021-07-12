@@ -7,17 +7,13 @@ function userShouldBeLoggedIn(req, res, next) {
   const token = req.headers['x-access-token'];
 
   if (token) {
-    console.log('this is the token', token);
-
     jwt.verify(token, supersecret, async (err, payload) => {
-      console.log('this is the payload', payload);
-
       if (err) res.status(401).send({ message: 'Please login first' });
       else {
         req.user = await models.User.findOne({
           where: { id: payload.user_id }
         });
-        console.log('this is req.user', req.user);
+
         if (!req.user) {
           return res.status(404).send({ message: 'This user does not exist' });
         }

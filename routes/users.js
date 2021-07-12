@@ -15,8 +15,9 @@ const userShouldBeLoggedIn = require('../guards/userShouldBeLoggedIn');
 require('dotenv').config();
 const supersecret = process.env.SUPER_SECRET;
 
-/* GET users listing. */
-router.get('/', async (req, res) => {
+/* GET users listing  */
+//if a user wants to get all users from db, but these should be her contacts...
+router.get('/', userShouldBeLoggedIn, async (req, res) => {
   try {
     const users = await models.User.findAll({
       attributes: [
@@ -65,7 +66,6 @@ router.post('/register', async (req, res) => {
     location_token
   } = req.body;
   const { profile_photo } = req.files;
-  console.log('the photo is', profile_photo);
 
   const extension = mime.extension(profile_photo.mimetype);
 
@@ -77,23 +77,7 @@ router.post('/register', async (req, res) => {
 
   try {
     const hash = await bcrypt.hash(password, saltRounds);
-    const image = await fs.rename(tmp_path, target_path);
-
-    // console.log(image);
-
-    console.log('this is the body', {
-      name,
-      email,
-      password: hash,
-      address,
-      phone,
-      trusted_contact,
-      trusted_name,
-      profile_photo: filename,
-      latitude,
-      longitude,
-      location_token
-    });
+    await fs.rename(tmp_path, target_path);
 
     const user = await models.User.create({
       name,
@@ -143,9 +127,34 @@ router.post('/login', async (req, res) => {
   }
 });
 
-//UPDATE user's profile
+//UPDATE user's profile without the profile_photo
 router.put('/profile', userShouldBeLoggedIn, async function (req, res, next) {
   const { name, email, address, phone, trusted_contact, trusted_name, latitude, longitude } = req.body;
+
+  const user = req.user;
+
+  try {
+    const data = await user.update({
+      name,
+      email,
+      address,
+      phone,
+      trusted_contact,
+      trusted_name,
+      latitude,
+      longitude,
+      where: { id: user.id }
+    });
+
+    console.log('this is data:', data);
+    res.send({ message: 'User details was updated correctly', data: data });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+//Update photo_profile by user_id
+router.put('/profile/photo_profile', userShouldBeLoggedIn, async function (req, res, next) {
   const { profile_photo } = req.files;
   const extension = mime.extension(profile_photo.mimetype);
 
@@ -155,27 +164,18 @@ router.put('/profile', userShouldBeLoggedIn, async function (req, res, next) {
 
   const target_path = path.join(__dirname, '../public/img/') + filename;
 
-  console.log('i am updating this on body', req.body);
+  console.log('i am updating this on req.file', req.file);
   const user = req.user;
 
   try {
     await fs.rename(tmp_path, target_path);
-    const data = await user.update({
-      name,
-      email,
-      address,
-      phone,
-      trusted_contact,
-      trusted_name,
+
+    await user.update({
       profile_photo: filename,
-      latitude,
-      longitude,
       where: { id: user.id }
     });
 
-    // console.log("this is the user:", user)
-    console.log('this is data:', data);
-    res.send({ message: 'User details was updated correctly', data: data });
+    res.send({ message: 'Users photo_profile was updated correctly' });
   } catch (error) {
     res.status(500).send(error.message);
   }
