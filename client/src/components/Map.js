@@ -75,7 +75,6 @@ export class Map extends Component {
     for (var i = 0; i < places.length; i++) {
       bounds.extend(places[i].geometry.location)
     }
-
     // extend the bounds to include OUR current location
     bounds.extend(this.props.position)
 
