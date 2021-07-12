@@ -49,17 +49,6 @@ router.get('/id', userShouldBeLoggedIn, async (req, res) => {
 		res.status(500).send(err);
 	}
 });
-// router.get("/:id", async (req, res) => {
-// 	const { id } = req.params;
-// 	try {
-// 		const user = await models.User.findOne({
-// 			where: { id },
-// 		});
-// 		res.send(user);
-// 	} catch (err) {
-// 		res.status(500).send(err);
-// 	}
-// });
 
 // router.get("/id", async (req, res) => {
 // 	try {
