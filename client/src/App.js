@@ -38,6 +38,9 @@ function App() {
 					<NavLink className="nav-item" to="/userEdit">
 						Edit Profile
 					</NavLink>
+					<NavLink className="nav-item" to="/userValidation">
+						Validation
+					</NavLink>
 				</nav>
 
 				<Switch>
