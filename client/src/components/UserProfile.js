@@ -2,12 +2,8 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
-const errorMessage = 'There was a problem. Please try again later'
-
 export default function UserProfile() {
   const [user, setUser] = useState([])
-  const [error, setError] = useState('')
-  const [message, setMessage] = useState('')
 
   useEffect(() => {
     getUsers()
@@ -15,7 +11,7 @@ export default function UserProfile() {
 
   const getUsers = async () => {
     try {
-      const response = await axios(`/users/id`, {
+      const response = await axios(`/api/users/id`, {
         headers: {
           'x-access-token': localStorage.getItem('token')
         }
