@@ -34,8 +34,8 @@ router.get('/', userShouldBeLoggedIn, async (req, res) => {
 				'longitude',
 				'location_token'
 			]
-			// include: { model: models.Album, attributes: ['name'] }
-		});
+			// include: { model: models.Album,
+      });
 		res.send(users);
 	} catch (err) {
 		res.status(500).send(err);
@@ -48,54 +48,6 @@ router.get('/id', userShouldBeLoggedIn, async (req, res) => {
 		await res.send(req.user);
 	} catch (err) {
 		res.status(500).send(err);
-	}
-});
-
-// REGISTRATION OF USER
-router.post('/register', async (req, res) => {
-	const {
-		name,
-		email,
-		password,
-		address,
-		phone,
-		trusted_contact,
-		trusted_name,
-		latitude,
-		longitude,
-		location_token
-	} = req.body;
-	const { profile_photo } = req.files;
-
-	const extension = mime.extension(profile_photo.mimetype);
-
-	const filename = uuidv4() + '.' + extension;
-
-	const tmp_path = profile_photo.tempFilePath;
-
-	const target_path = path.join(__dirname, '../public/img/') + filename;
-
-	try {
-		const hash = await bcrypt.hash(password, saltRounds);
-		await fs.rename(tmp_path, target_path);
-
-		const user = await models.User.create({
-			name,
-			email,
-			password: hash,
-			address,
-			phone,
-			trusted_contact,
-			trusted_name,
-			profile_photo: filename,
-			latitude,
-			longitude,
-			location_token
-		});
-
-		res.send(user);
-	} catch (err) {
-		res.status(500).send({ msg: 'Please, fill in all required fields.' });
 	}
 });
 
