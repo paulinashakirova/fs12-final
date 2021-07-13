@@ -5,7 +5,7 @@ import { NavLink, useRouteMatch, useParams } from "react-router-dom";
 export default function ChatFriendList() {
 	const [user, setUser] = useState([]);
 
-	//let { url } = useRouteMatch();
+	let { url } = useRouteMatch();
 	let { id } = useParams();
 
 	useEffect(() => {
