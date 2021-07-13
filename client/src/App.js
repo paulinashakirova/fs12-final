@@ -7,8 +7,8 @@ import UserProfile from './components/UserProfile'
 import Chat from './components/Chat'
 import UserEdit from './components/UserEdit'
 import axios from 'axios'
-
 import { BrowserRouter as Router, Switch, Route, NavLink, Redirect } from 'react-router-dom'
+import GuestView from './components/GuestView'
 
 function App() {
   const avatarStyles = {
@@ -22,14 +22,14 @@ function App() {
     window.location.href = '/userLogin'
   }
   const [user, setUser] = useState([])
-  
+
   useEffect(() => {
     getUsers()
   }, [localStorage.getItem('token')])
 
   const getUsers = async () => {
     try {
-      const response = await axios(`/users/id`, {
+      const response = await axios(`/api/users/id`, {
         headers: {
           'x-access-token': localStorage.getItem('token')
         }
@@ -39,7 +39,7 @@ function App() {
       console.log(err)
     }
   }
-  
+
   return (
     <div className='App'>
       <Router>
@@ -48,7 +48,9 @@ function App() {
             <div className='navbar gap-3 navbar-expand'>
               <div className='mr-auto'>
                 {user.name}
-                <img style={avatarStyles} src={'/img/' + user.profile_photo} />
+                {user && user.profile_photo && (
+                  <img style={avatarStyles} alt='User profile' src={'/img/' + user.profile_photo} />
+                )}
               </div>
               <NavLink className='nav-item' to='/'>
                 Dashboard
@@ -106,6 +108,9 @@ function App() {
               </Route>
               <Route path='/userRegistration'>
                 <UserRegistration />
+              </Route>
+              <Route path='/guestview/:id'>
+                <GuestView />
               </Route>
               )
             </div>

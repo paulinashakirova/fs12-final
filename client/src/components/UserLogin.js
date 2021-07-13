@@ -19,7 +19,7 @@ function UserLogin(props) {
   const login = async (event) => {
     event.preventDefault()
     try {
-      const response = await axios.post('/users/login', user)
+      const response = await axios.post('/api/users/login', user)
       localStorage.setItem('token', response.data.token)
       window.location.href = '/'
     } catch (err) {
