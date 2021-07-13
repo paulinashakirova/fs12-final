@@ -39,7 +39,7 @@ export default function Dashboard() {
   const sendMyCurrentLocation = () => {
     try {
       axios.post(
-        '/location/liveLocation',
+        '/api/location/liveLocation',
         { latitude: position.lat, longitude: position.lng },
         {
           headers: {
@@ -55,7 +55,7 @@ export default function Dashboard() {
   const updateMyLocation = () => {
     try {
       axios.put(
-        '/location/liveLocation',
+        '/api/location/liveLocation',
         { latitude: position.lat, longitude: position.lng },
         {
           headers: {
