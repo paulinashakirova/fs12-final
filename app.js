@@ -7,9 +7,7 @@ var logger = require("morgan");
 const fileUpload = require("express-fileupload");
 
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var locationRouter = require("./routes/location");
-var chatRouter = require("./routes/chat");
+
 
 var app = express();
 
@@ -20,16 +18,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
-	fileUpload({
-		useTempFiles: true,
-		tempFileDir: "./tmp/",
-	})
-);
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: './tmp/'
+  })
+)
+app.use(express.static(path.join(__dirname, '/client/build')))
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/location", locationRouter);
-app.use("/chat", chatRouter);
+app.use('/api', indexRouter)
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'))
+})
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

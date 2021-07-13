@@ -9,7 +9,6 @@ import UserEdit from "./components/UserEdit";
 import ChatPage from "./components/ChatPage";
 import ChatFriendList from "./components/ChatFriendList";
 import axios from "axios";
-
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -17,6 +16,7 @@ import {
 	NavLink,
 	Redirect,
 } from "react-router-dom";
+import GuestView from "./components/GuestView";
 
 function App() {
 	const avatarStyles = {
@@ -37,7 +37,7 @@ function App() {
 
 	const getUsers = async () => {
 		try {
-			const response = await axios(`/users/id`, {
+			const response = await axios(`/api/users/id`, {
 				headers: {
 					"x-access-token": localStorage.getItem("token"),
 				},
@@ -56,7 +56,13 @@ function App() {
 						<div className="navbar gap-3 navbar-expand">
 							<div className="mr-auto">
 								{user.name}
-								<img style={avatarStyles} src={"/img/" + user.profile_photo} />
+								{user && user.profile_photo && (
+									<img
+										style={avatarStyles}
+										alt="User profile"
+										src={"/img/" + user.profile_photo}
+									/>
+								)}
 							</div>
 							<NavLink className="nav-item" to="/">
 								Dashboard
@@ -70,7 +76,6 @@ function App() {
 							<NavLink className="nav-item" to="/userEdit">
 								Edit Profile
 							</NavLink>
-
 							<button className="btn btn-link pl-0 nav-item" onClick={logOut}>
 								Log-out
 							</button>
@@ -88,7 +93,17 @@ function App() {
 				</nav>
 
 				<Switch>
-					{localStorage.getItem("token") ? (
+					<Route path="/userLogin">
+						<UserLogin />
+					</Route>
+					<Route path="/userRegistration">
+						<UserRegistration />
+					</Route>
+					<Route path="/guestview/:id">
+						<GuestView />
+					</Route>
+
+					{localStorage.getItem("token") && (
 						<div>
 							<Route path="/" exact>
 								<Dashboard />
@@ -96,33 +111,12 @@ function App() {
 							<Route path="/userProfile">
 								<UserProfile />
 							</Route>
-							<Route path="/chat">
-								<Chat />
+							<Route path="/chatPage">
+								<ChatPage />
 							</Route>
 							<Route path="/userEdit">
 								<UserEdit />
 							</Route>
-							<Route path="/chatPage">
-								<ChatPage />
-							</Route>
-							<Route path="/chatFriendList">
-								<ChatFriendList />
-							</Route>
-						</div>
-					) : (
-						<div>
-							<Redirect
-								to={{
-									pathname: "/userLogin",
-								}}
-							/>
-							<Route path="/userLogin">
-								<UserLogin />
-							</Route>
-							<Route path="/userRegistration">
-								<UserRegistration />
-							</Route>
-							)
 						</div>
 					)}
 				</Switch>

@@ -16,7 +16,7 @@ export default function UserProfile() {
 
 	const getUsers = async () => {
 		try {
-			const response = await axios(`/users/id`, {
+			const response = await axios(`api/users/id`, {
 				headers: {
 					"x-access-token": localStorage.getItem("token"),
 				},
@@ -45,7 +45,7 @@ export default function UserProfile() {
 
 		try {
 			const response = await axios.put(
-				"/users/profile/photo_profile",
+				"api/users/profile/photo_profile",
 				formData,
 				{
 					headers: {

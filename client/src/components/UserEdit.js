@@ -22,7 +22,7 @@ export default function UserEdit() {
 	useEffect(() => {
 		(async () => {
 			try {
-				const user = await axios.get(`/users/id`, {
+				const user = await axios.get(`api/users/id`, {
 					headers: {
 						"x-access-token": localStorage.getItem("token"),
 					},
@@ -57,7 +57,7 @@ export default function UserEdit() {
 		formData.append("location_token", user.location_token);
 
 		try {
-			const response = await axios.put("/users/profile", formData, {
+			const response = await axios.put("api/users/profile", formData, {
 				headers: {
 					"x-access-token": localStorage.getItem("token"),
 					"Content-Type": "multipart/form-data",

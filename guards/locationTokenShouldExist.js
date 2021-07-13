@@ -1,3 +1,4 @@
+
 var models = require("../models");
 
 async function locationTokenShouldExist(req, res, next) {

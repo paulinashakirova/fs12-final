@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "migrate": "npx sequelize-cli db:migrate"
+    "migrate": "npx sequelize-cli db:migrate",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -29,6 +30,9 @@
     "nodemailer": "^6.6.2",
     "nodemon": "^2.0.9",
     "pusher": "^5.0.0",
+
+    "pusher-js": "^7.0.3",
+
     "react-router-dom": "^5.2.0",
     "sequelize": "^6.6.4",
     "uuid": "^8.3.2"

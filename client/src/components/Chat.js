@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Pusher from "pusher-js";
 import axios from "axios";
-
-Pusher.logToConsole = true;
+import Pusher from "pusher-js";
 
 export default function Chat() {
 	const [messages, setMessages] = useState([]);
@@ -20,17 +18,10 @@ export default function Chat() {
 		var pusher = new Pusher("28f10c936cccdf0afe24", {
 			cluster: "ap1",
 			forceTLS: true,
-			authEndpoint: "/chat/pusher/auth",
-			auth: {
-				headers: {
-					"x-access-token": localStorage.getItem("token"),
-				},
-			},
 		});
 
 		const ids = [sender, receiver].sort();
-		// private channels must start with private-
-		const channelName = `private-chat-${ids[0]}-${ids[1]}`;
+		const channelName = `chat-${ids[0]}-${ids[1]}`;
 
 		var channel = pusher.subscribe(channelName);
 		channel.bind("message", function (data) {
