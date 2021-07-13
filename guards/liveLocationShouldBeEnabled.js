@@ -4,7 +4,7 @@ function liveLocationShouldBeEnabled(req, res, next) {
   console.log(latitude, longitude);
 
   if (latitude && longitude) {
-    liveLocation = { latitude, longitude };
+    req.liveLocation = { latitude, longitude };
 
     next();
   } else {
