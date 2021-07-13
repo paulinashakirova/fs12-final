@@ -23,7 +23,7 @@ router.get(
       res.status(500).send(err)
     }
   }
-)
+});
 
 //here, we generate the location_token
 //send email
