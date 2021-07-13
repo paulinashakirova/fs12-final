@@ -17,7 +17,7 @@ router.get(
     // const { latitude, longitude } = req.user;
 
     try {
-      res.send({ liveLocation });
+      res.send(req.liveLocation);
       // res.send({ latitude, longitude });
     } catch (err) {
       res.status(500).send(err);
