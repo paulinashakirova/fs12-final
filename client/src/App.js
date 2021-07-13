@@ -6,6 +6,8 @@ import UserLogin from "./components/UserLogin";
 import UserProfile from "./components/UserProfile";
 import Chat from "./components/Chat";
 import UserEdit from "./components/UserEdit";
+import ChatPage from "./components/ChatPage";
+import ChatFriendList from "./components/ChatFriendList";
 import axios from "axios";
 
 import {
@@ -59,7 +61,7 @@ function App() {
 							<NavLink className="nav-item" to="/">
 								Dashboard
 							</NavLink>
-							<NavLink className="nav-item" to="/chat">
+							<NavLink className="nav-item" to="/chatPage">
 								Chat
 							</NavLink>
 							<NavLink className="nav-item" to="/userProfile">
@@ -68,6 +70,7 @@ function App() {
 							<NavLink className="nav-item" to="/userEdit">
 								Edit Profile
 							</NavLink>
+
 							<button className="btn btn-link pl-0 nav-item" onClick={logOut}>
 								Log-out
 							</button>
@@ -98,6 +101,12 @@ function App() {
 							</Route>
 							<Route path="/userEdit">
 								<UserEdit />
+							</Route>
+							<Route path="/chatPage">
+								<ChatPage />
+							</Route>
+							<Route path="/chatFriendList">
+								<ChatFriendList />
 							</Route>
 						</div>
 					) : (

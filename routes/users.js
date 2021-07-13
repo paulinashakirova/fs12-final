@@ -16,7 +16,7 @@ require("dotenv").config();
 const supersecret = process.env.SUPER_SECRET;
 
 /* GET users listing. */
-router.get("/", async (req, res) => {
+router.get("/", userShouldBeLoggedIn, async (req, res) => {
 	try {
 		const users = await models.User.findAll({
 			attributes: [
@@ -157,7 +157,7 @@ router.post("/login", async (req, res) => {
 	}
 });
 
-//UPDATE user's profile
+//UPDATE user's profile without the profile_photo
 router.put("/profile", userShouldBeLoggedIn, async function (req, res, next) {
 	const {
 		name,
@@ -169,20 +169,10 @@ router.put("/profile", userShouldBeLoggedIn, async function (req, res, next) {
 		latitude,
 		longitude,
 	} = req.body;
-	const { profile_photo } = req.files;
-	const extension = mime.extension(profile_photo.mimetype);
 
-	const filename = uuidv4() + "." + extension;
-
-	const tmp_path = profile_photo.tempFilePath;
-
-	const target_path = path.join(__dirname, "../public/img/") + filename;
-
-	console.log("i am updating this on body", req.body);
 	const user = req.user;
 
 	try {
-		await fs.rename(tmp_path, target_path);
 		const data = await user.update({
 			name,
 			email,
@@ -190,19 +180,49 @@ router.put("/profile", userShouldBeLoggedIn, async function (req, res, next) {
 			phone,
 			trusted_contact,
 			trusted_name,
-			profile_photo: filename,
 			latitude,
 			longitude,
 			where: { id: user.id },
 		});
 
-		// console.log("this is the user:", user)
 		console.log("this is data:", data);
 		res.send({ message: "User details was updated correctly", data: data });
 	} catch (error) {
 		res.status(500).send(error.message);
 	}
 });
+
+//Update photo_profile by user_id
+router.put(
+	"/profile/photo_profile",
+	userShouldBeLoggedIn,
+	async function (req, res, next) {
+		const { profile_photo } = req.files;
+		const extension = mime.extension(profile_photo.mimetype);
+
+		const filename = uuidv4() + "." + extension;
+
+		const tmp_path = profile_photo.tempFilePath;
+
+		const target_path = path.join(__dirname, "../public/img/") + filename;
+
+		console.log("i am updating this on req.file", req.file);
+		const user = req.user;
+
+		try {
+			await fs.rename(tmp_path, target_path);
+
+			await user.update({
+				profile_photo: filename,
+				where: { id: user.id },
+			});
+
+			res.send({ message: "Users photo_profile was updated correctly" });
+		} catch (error) {
+			res.status(500).send(error.message);
+		}
+	}
+);
 
 router.delete("/:id", async (req, res) => {
 	const { id } = req.params;
