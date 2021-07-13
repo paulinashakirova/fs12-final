@@ -19,6 +19,7 @@ export class Map extends Component {
       searchCriteria: '',
       suggestions: [],
       places: [],
+      guestMode: props.guestMode,
       center: {
         lat: 0,
         lng: 0
@@ -81,46 +82,47 @@ export class Map extends Component {
     return (
       <div className='container'>
         <div className='row'>
-          <div className='col'>
-            <div className='form-inline d-flex justify-content-between mb-4'>
-              <input
-                type='text'
-                value={this.state.searchCriteria}
-                onChange={this.handleChange}
-                className='form-control flex-grow-1'
-                placeholder='Search for places on Google Maps'
-                onKeyPress={this.handleKeyPress}
-              />
-              <button onClick={this.search} className='btn btn-primary ml-2'>
-                Search
-              </button>
-            </div>
-            <div>
-              <h3>Suggestions</h3>
-              <button
-                onClick={this.clearSearch}
-                hidden={!this.state.suggestions.length}
-                className='btn btn-sm btn-danger'>
-                Clear
-              </button>
-            </div>
-
-            <ul className='list-group'>
-              {this.state.suggestions.map((place, i) => (
-                <li key={i} className='list-group-item d-flex justify-content-between align-items-center'>
-                  <div>
+          {this.state.guestMode ? null : (
+            <div className='col'>
+              <div className='form-inline d-flex justify-content-between mb-4'>
+                <input
+                  type='text'
+                  value={this.state.searchCriteria}
+                  onChange={this.handleChange}
+                  className='form-control flex-grow-1'
+                  placeholder='Search for places on Google Maps'
+                  onKeyPress={this.handleKeyPress}
+                />
+                <button onClick={this.search} className='btn btn-primary ml-2'>
+                  Search
+                </button>
+              </div>
+              <div>
+                <h3>Suggestions</h3>
+                <button
+                  onClick={this.clearSearch}
+                  hidden={!this.state.suggestions.length}
+                  className='btn btn-sm btn-danger'>
+                  Clear
+                </button>
+              </div>
+              <ul className='list-group'>
+                {this.state.suggestions.map((place, i) => (
+                  <li key={i} className='list-group-item d-flex justify-content-between align-items-center'>
                     <div>
-                      <strong>{place.name}</strong>
+                      <div>
+                        <strong>{place.name}</strong>
+                      </div>
+                      <span className='text-muted'>{place.formatted_address}</span>
                     </div>
-                    <span className='text-muted'>{place.formatted_address}</span>
-                  </div>
-                  <button className='btn btn-outline-primary' onClick={() => this.savePlace(place)}>
-                    Show
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+                    <button className='btn btn-outline-primary' onClick={() => this.savePlace(place)}>
+                      Show
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div style={mapStyles}>
             <GoogleMap
               google={this.props.google}

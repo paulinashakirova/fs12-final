@@ -38,26 +38,22 @@ router.post('/liveLocation', userShouldBeLoggedIn, async (req, res) => {
       longitude,
       location_token,
       where: { id: user.id }
-    });
-
-    let testAccount = await nodemailer.createTestAccount();
+    })
 
     let transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
-      secure: false, // true for 465, false for other ports
+      service: 'gmail',
       auth: {
-        user: testAccount.user,
-        pass: testAccount.pass
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD
       }
     });
 
     let info = await transporter.sendMail({
-      from: '"Safemme" <safemme@example.com>', // sender address
+      from: `"Safemme on behalf of ${user.name}" <safemmeapp@gmail.com>`, // sender address
       to: user.trusted_contact, // list of receivers
-      subject: 'Safemme - Your friend sends her location', // Subject line
-      text: `Link: http://localhost:3000/dashboard/${location_token}`
-    });
+      subject: `Safemme - Your friend ${user.name} sends her location`, // Subject line
+      text: `${process.env.EMAIL_HOST}/guestview/${location_token}`
+    })
 
     console.warn('Message sent: %s', info.messageId);
     console.warn('Preview URL: %s', nodemailer.getTestMessageUrl(info));
