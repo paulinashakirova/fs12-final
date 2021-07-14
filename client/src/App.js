@@ -11,6 +11,7 @@ import ChatFriendList from './components/ChatFriendList';
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, NavLink, Redirect } from 'react-router-dom';
 import GuestView from './components/GuestView';
+import logo from './img/logo.png';
 
 function App() {
   const avatarStyles = {
@@ -71,13 +72,20 @@ function App() {
               </button>
             </div>
           ) : (
-            <div className='navbar gap-3 navbar-expand'>
-              <NavLink className='nav-item' to='/userRegistration'>
-                Register
-              </NavLink>
-              <NavLink className='nav-item' to='/userLogin'>
-                Login
-              </NavLink>
+            <div
+              className='navbar gap-3 navbar-expand navbar-dark opacity-40'
+              style={{ background: '#00afb9' }}>
+              <div className='container-fluid'>
+                <a href='#'>
+                  <img width='100' height='100' src={logo} />
+                </a>
+                <NavLink active className='nav-item text-decoration-none orange' to='/userRegistration'>
+                  <span className='fs-1'>Register</span>
+                </NavLink>
+                <NavLink active className='nav-item text-decoration-none orange' to='/userLogin'>
+                  <span className='fs-1 mr-5'>Login</span>
+                </NavLink>
+              </div>
             </div>
           )}
         </nav>
