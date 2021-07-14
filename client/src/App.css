@@ -24,7 +24,7 @@ body {
 .inactive {
 	color: #0062cc;
 }
-.nav-links:hover {
+a:hover {
 	/* background-color:green; will change background-color of element on hover */
 	color: white; /*will change color of text within the element on hover */
 }
