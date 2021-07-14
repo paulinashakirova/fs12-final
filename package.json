@@ -30,9 +30,7 @@
     "nodemailer": "^6.6.2",
     "nodemon": "^2.0.9",
     "pusher": "^5.0.0",
-
     "pusher-js": "^7.0.3",
-
     "react-router-dom": "^5.2.0",
     "sequelize": "^6.6.4",
     "uuid": "^8.3.2"
