@@ -6,10 +6,6 @@ export default function ChatFriendList() {
   const [item, setItem] = useState([]);
   const [user, setUser] = useState([]);
 
-<<<<<<< HEAD
-  //let { url } = useRouteMatch();
-=======
->>>>>>> d5e3dbfe9c5ef03c1f9ab61f0ade2d74465daf55
   let { id } = useParams();
 
   useEffect(() => {
@@ -18,16 +14,14 @@ export default function ChatFriendList() {
 
   const getUsers = async () => {
     try {
-<<<<<<< HEAD
-      const response = await axios(`api/users`, {
+      const response = await axios(`/api/users`, {
         headers: {
           'x-access-token': localStorage.getItem('token')
         }
       });
-      console.log(response.data);
+
       setItem(response.data);
       getUserId();
-      console.log(response.data);
     } catch (err) {
       console.log(err);
     }
@@ -39,7 +33,6 @@ export default function ChatFriendList() {
           'x-access-token': localStorage.getItem('token')
         }
       });
-      console.log(response.data);
       setUser(response.data);
     } catch (err) {
       console.log(err);
@@ -48,46 +41,12 @@ export default function ChatFriendList() {
 
   return (
     <div className='list-group users-list'>
-=======
-      const response = await axios(`/api/users`, {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      });
-
-      setItem(response.data);
-      getUserId();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const getUserId = async () => {
-    try {
-      const response = await axios(`/api/users/id`, {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      });
-      setUser(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  return (
-    <div className="list-group users-list">
->>>>>>> d5e3dbfe9c5ef03c1f9ab61f0ade2d74465daf55
       <div>Hi {user.name}</div>
       {item
         .filter((e) => e.id !== user.id)
         .map((list, index) => (
-<<<<<<< HEAD
-          <NavLink to={`/chat/${user.id}/${list.id}`} key={index}>
-            <h6 className='my-0'>{list.name}</h6>
-=======
           <NavLink to={`/chatPage/chat/${list.id}`} key={index}>
-            <h6 className="my-0">{list.name}</h6>
->>>>>>> d5e3dbfe9c5ef03c1f9ab61f0ade2d74465daf55
+            <h6 className='my-0'>{list.name}</h6>
           </NavLink>
         ))}
     </div>
