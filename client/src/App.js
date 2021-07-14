@@ -11,7 +11,7 @@ import ChatFriendList from './components/ChatFriendList';
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, NavLink, Redirect } from 'react-router-dom';
 import GuestView from './components/GuestView';
-import logo from './img/logo.png';
+import logo from './img/logoyellow.png';
 
 function App() {
 	const avatarStyles = {
@@ -48,41 +48,45 @@ function App() {
 			<Router>
 				<nav>
 					{localStorage.getItem('token') ? (
-						<div className='navbar gap-3 navbar-expand'>
-							<div className='mr-auto'>
-								{user.name}
-								{user && user.profile_photo && (
-									<img style={avatarStyles} alt='User profile' src={'/img/' + user.profile_photo} />
-								)}
+						<div
+							className='navbar gap-3 navbar-expand navbar-dark opacity-40'
+							style={{ background: '#0081a7' }}>
+							<div className='container-fluid'>
+								<div className='mr-auto'>
+									{user.name}
+									{user && user.profile_photo && (
+										<img style={avatarStyles} alt='User profile' src={'/img/' + user.profile_photo} />
+									)}
+								</div>
+								<NavLink active className='nav-item text-decoration-none red' to='/'>
+									Dashboard
+								</NavLink>
+								<NavLink active className='nav-item text-decoration-none red' to='/chatPage'>
+									Chat
+								</NavLink>
+								<NavLink active className='nav-item text-decoration-none red' to='/userProfile'>
+									Profile
+								</NavLink>
+								<NavLink active className='nav-item text-decoration-none red' to='/userEdit'>
+									Edit Profile
+								</NavLink>
+								<button className='btn btn-link pl-0 nav-item ' onClick={logOut}>
+									Log-out
+								</button>
 							</div>
-							<NavLink className='nav-item' to='/'>
-								Dashboard
-							</NavLink>
-							<NavLink className='nav-item' to='/chatPage'>
-								Chat
-							</NavLink>
-							<NavLink className='nav-item' to='/userProfile'>
-								Profile
-							</NavLink>
-							<NavLink className='nav-item' to='/userEdit'>
-								Edit Profile
-							</NavLink>
-							<button className='btn btn-link pl-0 nav-item' onClick={logOut}>
-								Log-out
-							</button>
 						</div>
 					) : (
 						<div
 							className='navbar gap-3 navbar-expand navbar-dark opacity-40'
-							style={{ background: '#00afb9' }}>
+							style={{ background: '#0081a7' }}>
 							<div className='container-fluid'>
 								<a href='#'>
 									<img width='100' height='100' src={logo} />
 								</a>
-								<NavLink active className='nav-item text-decoration-none orange' to='/userRegistration'>
+								<NavLink active className='nav-item text-decoration-none red' to='/userRegistration'>
 									<span className='fs-1'>Register</span>
 								</NavLink>
-								<NavLink active className='nav-item text-decoration-none orange' to='/userLogin'>
+								<NavLink active className='nav-item text-decoration-none red' to='/userLogin'>
 									<span className='fs-1 mr-5'>Login</span>
 								</NavLink>
 							</div>
