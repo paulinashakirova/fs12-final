@@ -21,10 +21,12 @@ router.post('/pusher/auth', userShouldBeLoggedIn, function (req, res) {
 	const channel = req.body.channel_name;
 	const [_, __, id1, id2] = channel.split('-');
 
-	console.log('THE CHANNEL NAME IS ', channel);
+	// console.log('THE CHANNEL NAME IS ', channel);
 	try {
 		if (+id1 === req.user.id || +id2 === req.user.id) {
-			console.log('WE GOT HERE!!!', socketId, channel);
+			console.log('pauijne', channels_client);
+			//i have socket id/ i see channel as well
+			//how can it possibly be undefined if i receive data?
 			const auth = channels_client.authenticate(socketId, channel);
 			res.send(auth);
 		} else {
