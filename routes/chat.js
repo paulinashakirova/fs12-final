@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 require('dotenv').config();
 var Pusher = require('pusher');
-var Message = require('../models/message');
+// var Message = require("../models/message");
 const Sequelize = require('sequelize');
 const userShouldBeLoggedIn = require('../guards/userShouldBeLoggedIn');
 const Op = Sequelize.Op;
@@ -18,59 +18,61 @@ var channels_client = new Pusher({
   appId: process.env.PUSHER_APP_ID,
   key: process.env.PUSHER_KEY,
   secret: process.env.PUSHER_SECRET,
-  cluster: 'eu',
+  cluster: 'ap1',
   useTLS: true
 });
 
-// https://pusher.com/docs/channels/server_api/authenticating-users
-// router.post('/pusher/auth', function (req, res) {
-//   const socketId = req.body.socket_id;
-//   const channel = req.body.channel_name;
+router.post('/pusher/auth', userShouldBeLoggedIn, function (req, res) {
+  const socketId = req.body.socket_id;
+  const channel = req.body.channel_name;
+  const [_, __, id1, id2] = channel.split('-');
 
-//   // https://pusher.com/docs/channels/library_auth_reference/auth-signatures
-//   // You would first check that the user (authenticated via token) has permission to access channel
-//   const [_, __, id1, id2] = channel.split('-');
-//   // if the user has access to this channel because they're either the sender or the receiver
-//   if (id1 === req.user_id || id2 === req.user_id) {
-//     // if (true) {
-//     // all good
-//     const auth = channels_client.authenticate(socketId, channel);
-//     res.send(auth);
-//   } else {
-//     // no good, the user is not authorized to listen to this channel. Send error!
-//     res.status(401).send({ message: 'Please log in' });
-//   }
-// });
+  console.log('THE CHANNEL NAME IS ', channel);
+  try {
+    if (+id1 === req.user.id || +id2 === req.user.id) {
+      console.log('WE GOT HERE!!!', socketId, channel);
+      const auth = channels_client.authenticate(socketId, channel);
+      res.send(auth);
+    } else {
+      res.status(401).send({ message: 'Please log in AM I HERE?' });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+});
 
-router.post('/:sender_id/:receiver_id', (req, res) => {
-  console.log('yes ia m here');
-  let { sender_id, receiver_id } = req.params;
+router.post('/:receiver_id', userShouldBeLoggedIn, (req, res) => {
+  const sender_id = req.user.id;
+  let { receiver_id } = req.params;
   let text = req.body.data.message;
-  console.log(text);
 
   try {
     //store in DB
-    Message.create({ text, sender_id, receiver_id });
+    models.Message.create({ text, sender_id, receiver_id });
+
+    const ids = [sender_id, receiver_id].sort();
+    let channel = `private-chat-${ids[0]}-${ids[1]}`;
+
+    //send to Pusher
+    channels_client.trigger(channel, 'message', {
+      text,
+      sender_id,
+      receiver_id
+    });
+
+    res.send({ msg: 'Sent' });
   } catch (err) {
     res.status(500).send(err);
   }
-
-  const ids = [sender_id, receiver_id].sort();
-  let channel = `private-chat-${ids[0]}-${ids[1]}`;
-
-  //send to Pusher
-  channels_client.trigger(channel, 'message', {
-    text,
-    sender_id,
-    receiver_id
-  });
-
-  res.send({ msg: 'Sent' });
 });
 
-router.get('/:id1/:id2', async (req, res) => {
-  let { id1, id2 } = req.params;
-  let messages = await Message.findAll({
+router.get('/:id2', userShouldBeLoggedIn, async (req, res) => {
+  const id1 = req.user.id;
+  let { id2 } = req.params;
+
+  // console.log("I AM HERE", models);
+  let messages = await models.Message.findAll({
     where: {
       sender_id: {
         [Op.in]: [id1, id2]
