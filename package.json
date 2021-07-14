@@ -2,6 +2,9 @@
   "name": "fs12-final",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": "14.17.0"
+  },
   "scripts": {
     "start": "nodemon ./bin/www",
     "migrate": "npx sequelize-cli db:migrate",
