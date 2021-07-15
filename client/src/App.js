@@ -15,8 +15,8 @@ import logo from './img/logoyellow.png';
 
 function App() {
 	const avatarStyles = {
-		height: '36px',
-		width: '36px',
+		height: '40px',
+		width: '40px',
 		borderRadius: '50%',
 		marginLeft: '10px'
 	};
@@ -46,66 +46,63 @@ function App() {
 	return (
 		<div className='App'>
 			<Router>
-				<nav className='navbar navbar-expand-lg navbar-dark ' style={{ background: '#0081a7' }}>
+				<nav className='navbar navbar-expand-lg navbar-dark custom-navbar '>
 					{localStorage.getItem('token') ? (
 						<div className='container'>
-							<div className='container'>
-								<a href='#'>
-									<img width='60' height='60' src={logo} alt='' />
-								</a>
+							<NavLink to='/'>
+								<img width='60' height='60' src={logo} alt='' />
+							</NavLink>
+							<button
+								class='navbar-toggler'
+								type='button'
+								data-toggle='collapse'
+								data-target='#navbarText'
+								aria-controls='navbarText'
+								aria-expanded='false'
+								aria-label='Toggle navigation'>
+								<span class='navbar-toggler-icon'></span>
+							</button>
+							<div class='collapse navbar-collapse' id='navbarText'>
+								<ul className='navbar-nav mr-auto'>
+									<li className='nav-item'>
+										<NavLink className='nav-link' to='/'>
+											<span className='toggle'>Dashboard</span>
+											<span class='sr-only'>(current)</span>
+										</NavLink>
+									</li>
+									<li className='nav-item'>
+										<NavLink className='nav-link' to='/chatPage'>
+											<span className='toggle'>Chat</span>
+										</NavLink>
+									</li>
+									<li className='nav-item'>
+										<NavLink className='nav-link' to='/userProfile'>
+											<span className='toggle'>Profile</span>
+										</NavLink>
+									</li>
+									<li className='nav-item'>
+										<NavLink className='nav-link' to='/userEdit'>
+											<span className='toggle'>Edit Profile</span>
+										</NavLink>
+									</li>
+								</ul>
 								<button
-									class='navbar-toggler'
-									type='button'
-									data-toggle='collapse'
-									data-target='#navbarText'
-									aria-controls='navbarText'
-									aria-expanded='false'
-									aria-label='Toggle navigation'>
-									<span class='navbar-toggler-icon'></span>
+									className='btn btn-link btn-outline-success pl-0  nav-item my-2 my-sm-0'
+									type='submit'
+									onClick={logOut}>
+									<span className='pl-3'>Log-out</span>
 								</button>
-								<div class='collapse navbar-collapse' id='navbarText'>
-									<ul className='navbar-nav mr-auto'>
-										<li className='nav-item'>
-											<NavLink className='nav-link' to='/'>
-												<span className='toggle'>Dashboard</span>
-												<span class='sr-only'>(current)</span>
-											</NavLink>
-										</li>
-										<li className='nav-item'>
-											<NavLink className='nav-link' to='/chatPage'>
-												<span className='toggle'>Chat</span>
-											</NavLink>
-										</li>
-										<li className='nav-item'>
-											<NavLink className='nav-link' to='/userProfile'>
-												<span className='toggle'>Profile</span>
-											</NavLink>
-										</li>
-										<li className='nav-item'>
-											<NavLink className='nav-link' to='/userEdit'>
-												<span className='toggle'>Edit Profile</span>
-											</NavLink>
-										</li>
-										<button
-											className='btn btn-link btn-outline-success pl-0  nav-item my-2 my-sm-0 w-50'
-											type='submit'
-											onClick={logOut}>
-											<span className='pl-3'>Log-out</span>
-										</button>
-									</ul>
+
+								<div className='mx-2 '>
+									<span className='text-white'>{user.name}</span>
+									{user && user.profile_photo && (
+										<img style={avatarStyles} alt='User profile' src={'/img/' + user.profile_photo} />
+									)}
 								</div>
-							</div>
-							<div className='my-1 mx-2 '>
-								{user.name}
-								{user && user.profile_photo && (
-									<img style={avatarStyles} alt='User profile' src={'/img/' + user.profile_photo} />
-								)}
 							</div>
 						</div>
 					) : (
-						<div
-							className='navbar gap-3 navbar-expand navbar-dark opacity-40'
-							style={{ background: '#0081a7' }}>
+						<div className='navbar gap-3 navbar-expand navbar-dark opacity-40'>
 							<div className='container-fluid'>
 								<a href='#'>
 									<img width='100' height='100' src={logo} />
