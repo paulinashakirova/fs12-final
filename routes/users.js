@@ -66,14 +66,24 @@ router.post("/register", async (req, res) => {
   } = req.body;
 
   try {
-    const { profile_photo } = req.files;
-    const extension = mime.extension(profile_photo.mimetype);
-    const filename = uuidv4() + "." + extension;
-    const tmp_path = profile_photo.tempFilePath;
-    const target_path = path.join(__dirname, "../public/img/") + filename;
+    // const { profile_photo } = req.files;
+    // const extension = mime.extension(profile_photo.mimetype);
+    // const filename = uuidv4() + "." + extension;
+    // const tmp_path =  profile_photo.tempFilePath;
+    // const target_path = path.join(__dirname, "../public/img/") + filename;
+
+    const filename = "mypicture.jpg";
 
     const hash = await bcrypt.hash(password, saltRounds);
+
+    const accessTmp = fs.access(tmp_path);
+    const accessFinal = fs.access(path.join(__dirname, "../public/img/"));
+
+    console.log({ accessTmp, accessFinal });
+
+    // causing an error in Heroku
     await fs.rename(tmp_path, target_path);
+
     const user = await models.User.create({
       name,
       email,
