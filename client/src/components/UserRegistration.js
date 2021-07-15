@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 export default function UserRegistration() {
+  const [msg, setMsg] = useState('');
   const [input, setInput] = useState([
     {
       name: '',
@@ -54,7 +55,12 @@ export default function UserRegistration() {
           'Content-Type': 'multipart/form-data'
         }
       });
+      //   console.log(response.data.message);
       console.log(response);
+      if (response.ok) {
+        throw { message: response.data.message };
+      }
+      setMsg(response.data.message);
     } catch (err) {
       console.log(err);
     }
@@ -168,6 +174,7 @@ export default function UserRegistration() {
           {message && <div className='alert alert-success'>{message}</div>}
           {error && <div className='alert alert-danger'>{error}</div>}
         </div>
+        <div>{msg}</div>
       </form>
       <footer className='footer'>
         <div className='row align-items-center justify-content-xl-between'>

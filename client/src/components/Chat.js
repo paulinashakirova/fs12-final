@@ -8,7 +8,7 @@ Pusher.logToConsole = true;
 const pusherKey = process.env.REACT_APP_PUSHER_KEY;
 
 export default function Chat() {
-  const sender = localStorage.getItem('user_id');
+  const sender = +localStorage.getItem('user_id');
   // const [sender, setSender] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -38,7 +38,7 @@ export default function Chat() {
       }
     });
 
-    const ids = [sender, receiver].sort();
+    const ids = [+sender, +receiver].sort();
 
     const channelName = `private-chat-${ids[0]}-${ids[1]}`;
 
@@ -53,18 +53,7 @@ export default function Chat() {
     };
   }, [receiver, sender]);
 
-  // const getSender = async () => {
-  //   try {
-  //     const response = await axios(`/api/users/id`, {
-  //       headers: {
-  //         "x-access-token": localStorage.getItem("token"),
-  //       },
-  //     });
-  //     setSender(response.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  
 
   const sendMessage = async () => {
     await axios.post(

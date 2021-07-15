@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import Map from './Map';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import Map from "./Map";
+import axios from "axios";
 
 export default function Dashboard() {
   const [position, setPosition] = useState({
     lat: 0,
-    lng: 0
+    lng: 0,
   });
   const [status, setStatus] = useState(null);
   const [sharingStatus, setSharingStatus] = useState(false);
@@ -21,16 +21,19 @@ export default function Dashboard() {
   //ask the user for their current location
   const getLocation = () => {
     if (!navigator.geolocation) {
-      setStatus('Geolocation is not supported by your browser');
+      setStatus("Geolocation is not supported by your browser");
     } else {
-      setStatus('Locating...');
+      setStatus("Locating...");
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setStatus(null);
-          setPosition({ lat: position.coords.latitude, lng: position.coords.longitude });
+          setPosition({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
         },
         () => {
-          setStatus('Unable to retrieve your location');
+          setStatus("Unable to retrieve your location");
         }
       );
     }
@@ -39,12 +42,12 @@ export default function Dashboard() {
   const sendMyCurrentLocation = () => {
     try {
       axios.post(
-        '/api/location/liveLocation',
+        "/api/location/liveLocation",
         { latitude: position.lat, longitude: position.lng },
         {
           headers: {
-            'x-access-token': localStorage.getItem('token')
-          }
+            "x-access-token": localStorage.getItem("token"),
+          },
         }
       );
     } catch (error) {
@@ -55,12 +58,12 @@ export default function Dashboard() {
   const updateMyLocation = () => {
     try {
       axios.put(
-        '/api/location/liveLocation',
+        "/api/location/liveLocation",
         { latitude: position.lat, longitude: position.lng },
         {
           headers: {
-            'x-access-token': localStorage.getItem('token')
-          }
+            "x-access-token": localStorage.getItem("token"),
+          },
         }
       );
     } catch (error) {
@@ -78,22 +81,32 @@ export default function Dashboard() {
   };
 
   return (
-    <div className='container-fluid'>
-      <div className='container w-50'>
-        <button className='btn btn-sos  w-100 lh-50 m-5' style={{ background: '#f07167' }}>
-          SOS
-        </button>
+    <div className="container">
+      <div className="my-4 d-flex justify-content-center">
+        <button className="btn btn-sos">SOS</button>
       </div>
-      <div className='row'>
-        {status}
-        <div className='row g-0 gap-1 mb-3 w-75'>
-          <button className='btn btn-outline-success' onClick={sendMyCurrentLocation} disabled={!position}>
+      <div className="row">
+        {/* {status} */}
+        <div className="row g-0 gap-1 mb-3">
+          <button
+            className="btn btn-success"
+            onClick={sendMyCurrentLocation}
+            disabled={!position}
+          >
             Send my current location
           </button>
-          <button className='btn btn-outline-success ' hidden={sharingStatus} onClick={shareMyLocation}>
+          <button
+            className="btn btn-info"
+            hidden={sharingStatus}
+            onClick={shareMyLocation}
+          >
             Share my location
           </button>
-          <button className='btn btn-outline-success' hidden={!sharingStatus} onClick={stopSharingMyLocation}>
+          <button
+            className="btn btn-warning"
+            hidden={!sharingStatus}
+            onClick={stopSharingMyLocation}
+          >
             Stop sharing my location
           </button>
         </div>
