@@ -11,7 +11,7 @@ import ChatFriendList from './components/ChatFriendList';
 import axios from 'axios';
 import { BrowserRouter as Router, Switch, Route, NavLink, Redirect } from 'react-router-dom';
 import GuestView from './components/GuestView';
-import logo from './img/logo.png';
+import logo from './img/logoyellow.png';
 
 function App() {
   const avatarStyles = {
@@ -46,43 +46,64 @@ function App() {
   return (
     <div className='App'>
       <Router>
-        <nav>
+        <nav className='navbar navbar-expand-lg navbar-dark ' style={{ background: '#0081a7' }}>
           {localStorage.getItem('token') ? (
-            <div className='navbar gap-3 navbar-expand'>
-              <div className='mr-auto'>
-                {user.name}
-                {user && user.profile_photo && (
-                  <img style={avatarStyles} alt='User profile' src={'/img/' + user.profile_photo} />
-                )}
+            <div>
+              <div className='container-fluid'>
+                <a className='navbar-brand' href='#'>
+                  <img width='60' height='60' src={logo} alt='' />
+                </a>
+                <NavLink
+                  active
+                  className='nav-item navbar-toggler bg-gradient  text-decoration-none
+									'
+                  to='/'>
+                  <span>Dashboard</span>
+                </NavLink>
+                <NavLink
+                  active
+                  className='nav-item navbar-toggler bg-gradient text-decoration-none red'
+                  to='/chatPage'>
+                  Chat
+                </NavLink>
+                <NavLink
+                  active
+                  className='nav-item navbar-toggler bg-gradient text-decoration-none red'
+                  to='/userProfile'>
+                  Profile
+                </NavLink>
+                <NavLink
+                  active
+                  className='nav-item navbar-toggler bg-gradient text-decoration-none red'
+                  to='/userEdit'>
+                  Edit Profile
+                </NavLink>
+                <button
+                  className='btn btn-link btn-outline-success pl-0  nav-item my-2 my-sm-0 '
+                  type='submit'
+                  onClick={logOut}>
+                  <span className='pl-3'>Log-out</span>
+                </button>
+                <div className='my-1 mx-2 '>
+                  {user.name}
+                  {user && user.profile_photo && (
+                    <img style={avatarStyles} alt='User profile' src={'/img/' + user.profile_photo} />
+                  )}
+                </div>
               </div>
-              <NavLink className='nav-item' to='/'>
-                Dashboard
-              </NavLink>
-              <NavLink className='nav-item' to='/chatPage'>
-                Chat
-              </NavLink>
-              <NavLink className='nav-item' to='/userProfile'>
-                Profile
-              </NavLink>
-              <NavLink className='nav-item' to='/userEdit'>
-                Edit Profile
-              </NavLink>
-              <button className='btn btn-link pl-0 nav-item' onClick={logOut}>
-                Log-out
-              </button>
             </div>
           ) : (
             <div
               className='navbar gap-3 navbar-expand navbar-dark opacity-40'
-              style={{ background: '#00afb9' }}>
+              style={{ background: '#0081a7' }}>
               <div className='container-fluid'>
                 <a href='#'>
                   <img width='100' height='100' src={logo} />
                 </a>
-                <NavLink active className='nav-item text-decoration-none orange' to='/userRegistration'>
+                <NavLink active className='nav-item text-decoration-none red' to='/userRegistration'>
                   <span className='fs-1'>Register</span>
                 </NavLink>
-                <NavLink active className='nav-item text-decoration-none orange' to='/userLogin'>
+                <NavLink active className='nav-item text-decoration-none red' to='/userLogin'>
                   <span className='fs-1 mr-5'>Login</span>
                 </NavLink>
               </div>
