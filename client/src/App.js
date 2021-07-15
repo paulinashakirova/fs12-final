@@ -96,7 +96,12 @@ function App() {
 								<div className='mx-2 '>
 									<span className='text-white'>{user.name}</span>
 									{user && user.profile_photo && (
-										<img style={avatarStyles} alt='User profile' src={'/img/' + user.profile_photo} />
+										<img
+											style={avatarStyles}
+											className='d-none d-sm-inline-block'
+											alt='User profile'
+											src={'/img/' + user.profile_photo}
+										/>
 									)}
 								</div>
 							</div>
