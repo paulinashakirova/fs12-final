@@ -1,35 +1,36 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react';
+import axios from 'axios';
 
 function UserLogin(props) {
   const [user, setUser] = useState({
     email: '',
     password: ''
-  })
+  });
 
   const handleChange = ({ target }) => {
-    const { name, value } = target
+    const { name, value } = target;
 
     setUser((state) => ({
       ...state,
       [name]: value
-    }))
-  }
+    }));
+  };
 
   const login = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
-      const response = await axios.post('/api/users/login', user)
-      localStorage.setItem('token', response.data.token)
-      window.location.href = '/'
+      const response = await axios.post('/api/users/login', user);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user_id', response.data.user_id);
+      window.location.href = '/';
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 
   return (
-    <div className='container'>
-      <h3 className='text-center fw-bold mb-4'>Log in</h3>
+    <div className='container w-75'>
+      <h3 className='text-center fw-bold mb-4 fs-1 mt-5'>Sign in</h3>
       <form onSubmit={login}>
         <div className='mb-3'>
           <label className='form-label'>Email</label>
@@ -51,7 +52,9 @@ function UserLogin(props) {
             onChange={handleChange}
           />
         </div>
-        <button type='submit' className='btn btn-primary btn-block mb-3'>
+        {/*  */}
+        {/*  */}
+        <button type='submit' className='btn btn-primary btn-block mb-3 hover'>
           Log in
         </button>
       </form>
@@ -68,7 +71,7 @@ function UserLogin(props) {
         </div>
       </footer>
     </div>
-  )
+  );
 }
 
-export default UserLogin
+export default UserLogin;

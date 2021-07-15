@@ -1,27 +1,56 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+import { Link } from 'react-router-dom';
+
+const errorMessage = 'There was a problem. Please try again later';
 
 export default function UserProfile() {
-  const [user, setUser] = useState([])
+  const [user, setUser] = useState([]);
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
-    getUsers()
-  }, [])
+    getUsers();
+  }, []);
 
   const getUsers = async () => {
     try {
-      const response = await axios(`/api/users/id`, {
+      const response = await axios(`api/users/id`, {
         headers: {
           'x-access-token': localStorage.getItem('token')
         }
-      })
-      console.log(response.data)
-      setUser(response.data)
+      });
+      console.log(response.data);
+      setUser(response.data);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
+
+  const onFileChange = (event) => {
+    // Update the state
+    setUser((state) => ({ ...state, profile_photo: event.target.files[0] }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+    formData.append('profile_photo', user.profile_photo, user.profile_photo.name);
+
+    try {
+      const response = await axios.put('api/users/profile/photo_profile', formData, {
+        headers: {
+          'x-access-token': localStorage.getItem('token'),
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div>
@@ -34,8 +63,9 @@ export default function UserProfile() {
                 <img src={process.env.PUBLIC_URL + `/img/${user.profile_photo}`} alt='' />
                 <div className='file btn btn-lg btn-primary'>
                   Change Photo
-                  <input type='file' name='file' />
+                  <input type='file' name='profile_photo' accept='image/*' handleChange={onFileChange} />
                 </div>
+                <button onClick={handleSubmit}>Update Profile Photo</button>
               </div>
             </div>
             <div className='col-md-6'>
@@ -135,5 +165,5 @@ export default function UserProfile() {
         </div>
       </div>
     </div>
-  )
+  );
 }
