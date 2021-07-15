@@ -29,7 +29,7 @@ function UserLogin(props) {
 	};
 
 	return (
-		<div className='container'>
+		<div className='container w-75'>
 			<h3 className='text-center fw-bold mb-4 fs-1 mt-5'>Sign in</h3>
 			<form onSubmit={login}>
 				<div className='mb-3'>
@@ -52,7 +52,9 @@ function UserLogin(props) {
 						onChange={handleChange}
 					/>
 				</div>
-				<button type='submit' className='btn btn-primary btn-block mb-3'>
+				{/*  */}
+				{/*  */}
+				<button type='submit' className='btn btn-primary btn-block mb-3 hover'>
 					Log in
 				</button>
 			</form>
