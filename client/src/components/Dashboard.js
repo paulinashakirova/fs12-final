@@ -86,14 +86,14 @@ export default function Dashboard() {
 			</div>
 			<div className='row'>
 				{status}
-				<div className='row g-0 gap-1 mb-3'>
-					<button className='btn btn-success' onClick={sendMyCurrentLocation} disabled={!position}>
+				<div className='row g-0 gap-1 mb-3 w-75'>
+					<button className='btn btn-outline-success' onClick={sendMyCurrentLocation} disabled={!position}>
 						Send my current location
 					</button>
-					<button className='btn btn-info' hidden={sharingStatus} onClick={shareMyLocation}>
+					<button className='btn btn-outline-success ' hidden={sharingStatus} onClick={shareMyLocation}>
 						Share my location
 					</button>
-					<button className='btn btn-warning' hidden={!sharingStatus} onClick={stopSharingMyLocation}>
+					<button className='btn btn-outline-success' hidden={!sharingStatus} onClick={stopSharingMyLocation}>
 						Stop sharing my location
 					</button>
 				</div>

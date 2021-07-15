@@ -46,33 +46,60 @@ function App() {
 	return (
 		<div className='App'>
 			<Router>
-				<nav>
+				<nav className='navbar navbar-expand-lg navbar-dark ' style={{ background: '#0081a7' }}>
 					{localStorage.getItem('token') ? (
-						<div
-							className='navbar gap-3 navbar-expand navbar-dark opacity-40'
-							style={{ background: '#0081a7' }}>
-							<div className='container-fluid'>
-								<div className='mr-auto'>
-									{user.name}
-									{user && user.profile_photo && (
-										<img style={avatarStyles} alt='User profile' src={'/img/' + user.profile_photo} />
-									)}
-								</div>
-								<NavLink active className='nav-item text-decoration-none red' to='/'>
-									Dashboard
-								</NavLink>
-								<NavLink active className='nav-item text-decoration-none red' to='/chatPage'>
-									Chat
-								</NavLink>
-								<NavLink active className='nav-item text-decoration-none red' to='/userProfile'>
-									Profile
-								</NavLink>
-								<NavLink active className='nav-item text-decoration-none red' to='/userEdit'>
-									Edit Profile
-								</NavLink>
-								<button className='btn btn-link pl-0 nav-item ' onClick={logOut}>
-									Log-out
+						<div className='container'>
+							<div className='container'>
+								<a href='#'>
+									<img width='60' height='60' src={logo} alt='' />
+								</a>
+								<button
+									class='navbar-toggler'
+									type='button'
+									data-toggle='collapse'
+									data-target='#navbarText'
+									aria-controls='navbarText'
+									aria-expanded='false'
+									aria-label='Toggle navigation'>
+									<span class='navbar-toggler-icon'></span>
 								</button>
+								<div class='collapse navbar-collapse' id='navbarText'>
+									<ul className='navbar-nav mr-auto'>
+										<li className='nav-item'>
+											<NavLink className='nav-link' to='/'>
+												<span className='toggle'>Dashboard</span>
+												<span class='sr-only'>(current)</span>
+											</NavLink>
+										</li>
+										<li className='nav-item'>
+											<NavLink className='nav-link' to='/chatPage'>
+												<span className='toggle'>Chat</span>
+											</NavLink>
+										</li>
+										<li className='nav-item'>
+											<NavLink className='nav-link' to='/userProfile'>
+												<span className='toggle'>Profile</span>
+											</NavLink>
+										</li>
+										<li className='nav-item'>
+											<NavLink className='nav-link' to='/userEdit'>
+												<span className='toggle'>Edit Profile</span>
+											</NavLink>
+										</li>
+										<button
+											className='btn btn-link btn-outline-success pl-0  nav-item my-2 my-sm-0 w-50'
+											type='submit'
+											onClick={logOut}>
+											<span className='pl-3'>Log-out</span>
+										</button>
+									</ul>
+								</div>
+							</div>
+							<div className='my-1 mx-2 '>
+								{user.name}
+								{user && user.profile_photo && (
+									<img style={avatarStyles} alt='User profile' src={'/img/' + user.profile_photo} />
+								)}
 							</div>
 						</div>
 					) : (
