@@ -84,13 +84,14 @@ export class Map extends Component {
         <div className='row'>
           {this.state.guestMode ? null : (
             <div className='col'>
+              <h3>Find a safe place nearby</h3>
               <div className='form-inline d-flex justify-content-between mb-4'>
                 <input
                   type='text'
                   value={this.state.searchCriteria}
                   onChange={this.handleChange}
                   className='form-control flex-grow-1'
-                  placeholder='Search for places on Google Maps'
+                  placeholder='Search for a Safemme place'
                   onKeyPress={this.handleKeyPress}
                 />
                 <button onClick={this.search} className='btn btn-primary ml-2'>
@@ -98,7 +99,6 @@ export class Map extends Component {
                 </button>
               </div>
               <div>
-                <h3>Suggestions</h3>
                 <button
                   onClick={this.clearSearch}
                   hidden={!this.state.suggestions.length}

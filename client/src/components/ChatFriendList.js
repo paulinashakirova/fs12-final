@@ -41,14 +41,24 @@ export default function ChatFriendList() {
 
   return (
     <div className='list-group users-list'>
-      <div>Hi {user.name}</div>
-      {item
-        .filter((e) => e.id !== user.id)
-        .map((list, index) => (
-          <NavLink to={`/chatPage/chat/${list.id}`} key={index}>
-            <h6 className='my-0'>{list.name}</h6>
-          </NavLink>
-        ))}
+      <div>
+        <div>
+          <h3 className='text-center mt-3'>Please, select a friend to chat with!</h3>
+        </div>
+      </div>
+      <div>
+        {item
+          .filter((e) => e.id !== user.id)
+          .map((list, index) => (
+            <NavLink
+              className='text-decoration-none d-flex justify-content-evenly my-2'
+              to={`/chatPage/chat/${list.id}`}
+              key={index}>
+              <img className='imgfriend' src={process.env.PUBLIC_URL + `/img/${list.profile_photo}`} alt='' />
+              <h4 className='my-3'>{list.name}</h4>
+            </NavLink>
+          ))}
+      </div>
     </div>
   );
 }

@@ -91,11 +91,11 @@ export default function UserRegistration() {
           />
         </div>
         <div className='col-md-12'>
-          <label className='form-label'>Contact Number</label>
+          <label className='form-label '>Contact Number</label>
           <input
             placeholder='+34 123 456 789'
             type='text'
-            className='form-control'
+            className='form-control font-italic '
             name='phone'
             value={input.phone}
             onChange={handleChange}
@@ -105,7 +105,9 @@ export default function UserRegistration() {
           <label htmlFor='formFile' className='form-label'>
             Profile Photo
           </label>
+
           <input
+            placeholder='Choose your best photo'
             className='form-control'
             type='file'
             name='profile_photo'
@@ -119,7 +121,7 @@ export default function UserRegistration() {
           <input
             placeholder='name@example.com'
             type='email'
-            className='form-control'
+            className='form-control font-italic'
             name='email'
             value={input.email}
             onChange={handleChange}
@@ -151,7 +153,7 @@ export default function UserRegistration() {
           <input
             placeholder='name@example.com'
             type='trusted_contact'
-            className='form-control'
+            className='form-control font-italic'
             name='trusted_contact'
             value={input.trusted_contact}
             onChange={handleChange}
@@ -182,9 +184,7 @@ export default function UserRegistration() {
             <div className='copyright'>
               <p>
                 {' '}
-                <a href='/' className='text-decoration-none' target='_blank'>
-                  Safemme
-                </a>{' '}
+                <i className='mr-1 fw-bold'>Safemme</i>
                 by Karenina, Kelly, Melani, Paulina, Yusmi
               </p>
             </div>
