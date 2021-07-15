@@ -48,48 +48,58 @@ function App() {
       <Router>
         <nav className='navbar navbar-expand-lg navbar-dark ' style={{ background: '#0081a7' }}>
           {localStorage.getItem('token') ? (
-            <div>
-              <div className='container-fluid'>
-                <a className='navbar-brand' href='#'>
+            <div className='container'>
+              <div className='container'>
+                <a href='#'>
                   <img width='60' height='60' src={logo} alt='' />
                 </a>
-                <NavLink
-                  active
-                  className='nav-item navbar-toggler bg-gradient  text-decoration-none
-									'
-                  to='/'>
-                  <span>Dashboard</span>
-                </NavLink>
-                <NavLink
-                  active
-                  className='nav-item navbar-toggler bg-gradient text-decoration-none red'
-                  to='/chatPage'>
-                  Chat
-                </NavLink>
-                <NavLink
-                  active
-                  className='nav-item navbar-toggler bg-gradient text-decoration-none red'
-                  to='/userProfile'>
-                  Profile
-                </NavLink>
-                <NavLink
-                  active
-                  className='nav-item navbar-toggler bg-gradient text-decoration-none red'
-                  to='/userEdit'>
-                  Edit Profile
-                </NavLink>
                 <button
-                  className='btn btn-link btn-outline-success pl-0  nav-item my-2 my-sm-0 '
-                  type='submit'
-                  onClick={logOut}>
-                  <span className='pl-3'>Log-out</span>
+                  class='navbar-toggler'
+                  type='button'
+                  data-toggle='collapse'
+                  data-target='#navbarText'
+                  aria-controls='navbarText'
+                  aria-expanded='false'
+                  aria-label='Toggle navigation'>
+                  <span class='navbar-toggler-icon'></span>
                 </button>
-                <div className='my-1 mx-2 '>
-                  {user.name}
-                  {user && user.profile_photo && (
-                    <img style={avatarStyles} alt='User profile' src={'/img/' + user.profile_photo} />
-                  )}
+                <div class='collapse navbar-collapse' id='navbarText'>
+                  <ul className='navbar-nav mr-auto'>
+                    <li className='nav-item'>
+                      <NavLink className='nav-link' to='/'>
+                        <span className='toggle'>Dashboard</span>
+                        <span class='sr-only'>(current)</span>
+                      </NavLink>
+                    </li>
+                    <li className='nav-item'>
+                      <NavLink className='nav-link' to='/chatPage'>
+                        <span className='toggle'>Chat</span>
+                      </NavLink>
+                    </li>
+                    <li className='nav-item'>
+                      <NavLink className='nav-link' to='/userProfile'>
+                        <span className='toggle'>Profile</span>
+                      </NavLink>
+                    </li>
+                    <li className='nav-item'>
+                      <NavLink className='nav-link' to='/userEdit'>
+                        <span className='toggle'>Edit Profile</span>
+                      </NavLink>
+                    </li>
+                    <button
+                      className='btn btn-link btn-outline-success pl-0  nav-item my-2 my-sm-0 w-50'
+                      type='submit'
+                      onClick={logOut}>
+                      <span className='pl-3'>Log-out</span>
+                    </button>
+                  </ul>
                 </div>
+              </div>
+              <div className='my-1 mx-2 '>
+                {user.name}
+                {user && user.profile_photo && (
+                  <img style={avatarStyles} alt='User profile' src={'/img/' + user.profile_photo} />
+                )}
               </div>
             </div>
           ) : (

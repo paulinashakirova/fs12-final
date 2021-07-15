@@ -58,6 +58,18 @@ a:hover {
   /* background-color:green; will change background-color of element on hover */
   color: white; /*will change color of text within the element on hover */
 }
+.toggle {
+  color: #f07167;
+}
+.toggle:hover {
+  color: #fed9b7;
+}
+.toggle:active {
+  color: #fdfcdc;
+}
+.toggle:visited {
+  background-color: black;
+}
 
 /* 
 blue: #0081a7
