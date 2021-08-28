@@ -1,1 +1,2 @@
-# FS12 Final Project
+# Full Stack Bootcamp Final Project July 2021 
+# CodeOp Barcelona
